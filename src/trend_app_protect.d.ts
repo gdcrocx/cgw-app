@@ -1,0 +1,1 @@
+declare module 'trend_app_protect';

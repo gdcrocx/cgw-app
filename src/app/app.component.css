@@ -1,0 +1,228 @@
+body {
+  background-color: white;
+  color: black;
+  font-family: sans-serif;
+}
+
+.siteLogo {
+ width: 10rem;
+ height: auto;
+ background: cover;    
+}
+
+.siteGradient {
+  background: rgb(237,50,166);
+  background: linear-gradient(135deg, rgba(237,50,166,1) 0%, rgba(182,97,218,1) 50%, rgba(119,27,213,1) 100%);
+}
+
+.marginBottom {
+  margin-bottom: 1.5rem;
+}
+
+.marginTop {
+  margin-top: 1rem;
+}
+
+.allZero {
+  margin: 0;
+  padding: 0;
+}
+
+a:link, a:active, a:visited, a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.marginRight {
+  margin-right: 0.35rem;
+}
+
+#clockdiv-event {
+  font-family: sans-serif;
+  color: yellow;
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  font-size: 2rem;
+}
+
+#clockdiv-event > div {
+  padding-bottom: 0.5rem;
+  border-radius: 0.35rem;
+  background: #000;
+  display: inline-block;
+  min-width: 5rem;
+}
+
+#clockdiv-event div > span {
+  padding-bottom: 0.5rem;
+  border-radius: 0.35rem;
+  background: #000;
+  display: inline-block;
+  color: yellow;
+  font-size: 3rem;
+}
+
+#clockdiv {
+  font-family: sans-serif;
+  color: yellow;
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  font-size: 2rem;
+}
+
+#clockdiv > div {
+  padding-bottom: 0.5rem;
+  border-radius: 0.35rem;
+  background: #000;
+  display: inline-block;
+  min-width: 5rem;
+}
+
+#clockdiv div > span {
+  padding-bottom: 0.5rem;
+  border-radius: 0.35rem;
+  background: #000;
+  display: inline-block;
+  color: yellow;
+  font-size: 3rem;
+}
+
+.eventText {
+  font-size: 0.65rem;
+  padding-top: 0.15rem;  
+  font-weight: 600;  
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 6rem;
+}
+
+.callToActionButton { 
+  color: white;
+  font-weight: 700;
+  padding: 1rem 3rem;
+  border: 0;
+  border-radius: 0.5rem;
+  font-size: medium;
+}
+
+.frontpageBannerText {
+  font-weight: 900;
+  font-size: 3.25rem;
+  line-height: 3.25rem;
+  color: black;
+}
+
+.frontpageBannerDescription {
+  font-weight: 500;
+  font-size: large;
+  color: black;
+}
+
+.frontpageBgParallelogram {      
+  height: 100%;  
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 30rem;
+  height: 30rem;
+  transform: skew(-35deg);
+  background: linear-gradient(360deg, rgba(237,50,166,1) 0%, rgba(182,97,218,1) 50%, rgba(119,27,213,1) 100%);
+  z-index: -1;    
+}
+
+.floatRight {
+  float: right;
+}
+
+/* .col-sm-1,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-12,
+.col-sm-10, .container {
+  border: 1px solid red;
+} */
+
+.displayInline {
+  display: inline-block;
+}
+
+.frontpageBannerImg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.siteAlert {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: medium;
+  color: white;
+  background: #771bd5;
+}
+
+nav ul li a {
+  color: black;
+  text-decoration-line: none;
+}
+
+nav ul li {
+  display: inline-block;
+  list-style: none;
+  text-align: center;
+}
+
+/* .siteHeader:after { 
+  font-family: 'webflow-icons' !important;
+  content: "\e603";
+  color: black;
+} */
+
+.siteHeader {
+  max-width: 1.5rem;
+  max-height: 1.5rem;
+}
+
+nav {
+  text-align: center;
+}
+nav ul {
+  display: inline-block;
+  margin: 0;
+  padding: 0;    
+  zoom:1;
+  *display: inline;
+}
+nav li {
+  float: left;
+  padding: 2rem 2rem;
+  /* border: 1px solid black; */
+  list-style: none;
+}
+
+nav ul li:first-child {
+  padding: 0;
+  margin: 0;
+}
+
+.linkButton {
+  margin: 1rem 0.25rem;
+  padding: 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+
+.linkButton a {
+  text-decoration-line: none;
+  color: white;
+}
+
+.linkButton:first-child {
+  margin-left: 3rem;
+}

@@ -1,0 +1,108 @@
+<header class="container-fluid">
+    <nav>
+        <ul class="nav">
+            <li class="active">
+                <a href="/">
+                    <img class="siteLogo" src="./images/eyedtentee_logo.jpg" alt="Trend Micro Cloud Governance Workshop Logo"/>
+                </a>
+            </li>
+            <div id="clockdiv-event" class="marginTop col-lg-5 offset-lg-4 col-md-5 offset-md-3 col-sm-8 col-xs-6" ng-hide="checked">
+                <div>
+                    <div id="eventHours" class="hours"></div>
+                    <div class="eventText">Hours</div>
+                </div>
+                <div>
+                    <div id="eventMinutes" class="minutes"></div>
+                    <div class="eventText">Minutes</div>
+                </div>
+                <div>
+                    <div id="eventSeconds" class="seconds"></div>
+                    <div class="eventText">Seconds</div>
+                </div>
+            </div>
+        </ul>
+    </nav>
+    <script>
+        let eventDeadline;
+let eventTimeValue = 90;
+
+// if there's a cookie with the name currentTimerCutOff, use that value as the deadline
+if (document.cookie && document.cookie.match('currentEventTimerCutOff')) {
+    // get deadline value from cookie    
+    eventDeadline = document.cookie.match(/(^|;)currentEventTimerCutOff=([^;]+)/)[2];
+} else {
+    eventDeadline = setEventTimer(eventTimeValue);
+    document.cookie = 'currentEventTimerCutOff=' + eventDeadline + '; samesite=strict;';    
+}
+
+function setEventTimer(mins = 90) {
+    console.log("--- Reset Event Timer ---");
+    let currentTime = Date.parse(new Date());
+    let milliseconds = mins * 60 * 1000;
+    newTime = new Date(currentTime + milliseconds);
+    console.log(newTime);
+    document.cookie = 'currentEventTimerCutOff=' + newTime + '; samesite=strict;';
+    document.cookie = 'currentEventTimerTime=' + milliseconds + '; samesite=strict;';
+    return newTime;
+}
+
+function killEventTimer() {
+    let currentEventTime = new Date();
+    document.cookie = 'currentEventTimerCutOff=' + currentEventTime + '; samesite=strict; expires=' + currentEventTime + ';';
+}
+
+function updateEventTimerBackend(currentEventTimerTime) {
+    document.cookie = 'currentEventTimerTime=' + currentEventTimerTime + '; samesite=strict;';
+}
+
+function initializeEventClock(eventTimeValue = 90) {
+
+    eventEndtime = setEventTimer(eventTimeValue);
+    
+    let eventHoursSpan = document.getElementById('eventHours');
+    let eventMinutesSpan = document.getElementById('eventMinutes');
+    let eventSecondsSpan = document.getElementById('eventSeconds');
+
+    function updateEventClock() {
+        let et = getEventTimeRemaining(eventEndtime);
+
+        updateEventTimerBackend(et.total);        
+        
+        eventHoursSpan.innerHTML = ('0' + et.hours).slice(-2);
+        eventMinutesSpan.innerHTML = ('0' + et.minutes).slice(-2);
+        eventSecondsSpan.innerHTML = ('0' + et.seconds).slice(-2);
+
+        if (et.total <= 0) {
+            killEventTimer();
+            clearInterval(eventTimeinterval);
+        }
+    }
+
+    updateEventClock();
+    let eventTimeinterval = setInterval(updateEventClock, 1000);
+}
+
+function getEventTimeRemaining(eventEndtime) {
+    let total = Date.parse(eventEndtime) - Date.parse(new Date());
+    let seconds = Math.floor((total / 1000) % 60);
+    let minutes = Math.floor((total / 1000 / 60) % 60);
+    let hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+    // let days = Math.floor(total / (1000 * 60 * 60 * 24));
+
+    return {
+        total,
+        // days,
+        hours,
+        minutes,
+        seconds
+    };
+}
+
+// initializeEventClock(eventTimeValue);
+    </script>
+</header>
+
+<!-- <app-login></app-login>
+<app-signup></app-signup> -->
+<!-- <app-question></app-question> -->
+<router-outlet></router-outlet>

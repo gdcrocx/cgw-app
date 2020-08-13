@@ -1,0 +1,6 @@
+{
+	"key": "94adf946-c7dd-404f-bdf1-cf07941588d4",
+	"secret": "30d2f29c-0997-40fe-a156-6fe295e91971",
+	"log_file": "log/trend_app_protect.log",
+	"log_level": "info"
+}

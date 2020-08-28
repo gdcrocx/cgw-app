@@ -1,0 +1,20 @@
+<div class="paddingQuestion">
+
+    <div *ngFor="let question of questions" class="form-row">
+
+      <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+        <app-dynamic-form-question [question]="question" [form]="form"></app-dynamic-form-question>
+
+        <div class="form-row">
+          <button class="btn btn-primarygit " type="submit" [disabled]="!form.valid">Save</button>
+        </div>
+
+      </form>
+
+    </div>
+  
+    <div *ngIf="payLoad" class="form-row">
+      <strong>Saved the following values</strong><br>{{payLoad}}
+    </div>
+</div>

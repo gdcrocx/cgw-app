@@ -22,12 +22,17 @@ export class QuestionService {
         required: true,
         order: 1
       }),
-
       new TextboxQuestion({
         key: 'emailAddress',
         label: 'Email',
         type: 'email',
         order: 2
+      }),
+      new TextboxQuestion({
+        key: 'Question 1',
+        label: 'Yama??',
+        type: 'number',
+        order: 3
       })
     ];
 

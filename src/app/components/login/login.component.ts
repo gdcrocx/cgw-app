@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+// import { Question } from '../question/question.component';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

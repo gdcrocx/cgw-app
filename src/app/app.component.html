@@ -1,12 +1,12 @@
 <header class="container-fluid">
     <nav>
         <ul class="nav">
-            <li class="active">
+            <li class="active floatLeft">
                 <a href="/">
-                    <img class="siteLogo" src="./images/eyedtentee_logo.jpg" alt="Trend Micro Cloud Governance Workshop Logo"/>
+                    <img class="siteLogo" src="../assets/images/eyedtentee_logo.jpg" alt="Trend Micro Cloud Governance Workshop Logo"/>
                 </a>
             </li>
-            <div id="clockdiv-event" class="marginTop col-lg-5 offset-lg-4 col-md-5 offset-md-3 col-sm-8 col-xs-6" ng-hide="checked">
+            <div id="clockdiv-event" class="marginTop floatRight" ng-hide="checked">
                 <div>
                     <div id="eventHours" class="hours"></div>
                     <div class="eventText">Hours</div>
@@ -22,6 +22,15 @@
             </div>
         </ul>
     </nav>
+    <div class="marginTop marginBottom">
+        <a href="https://www.cloudconformity.com/" target="_blank">
+            <span class="siteGradient siteAlert marginRight">NEW</span>
+            <span class="marginRight">Click here for Trend Micro Cloud Conformity</span>
+            <span class="marginRight">
+                <img src="../../../assets/images/right_arrow_grey.svg"/>
+            </span>
+        </a>
+    </div>
     <script>
         let eventDeadline;
 let eventTimeValue = 90;
@@ -102,7 +111,4 @@ function getEventTimeRemaining(eventEndtime) {
     </script>
 </header>
 
-<!-- <app-login></app-login>
-<app-signup></app-signup> -->
-<!-- <app-question></app-question> -->
 <router-outlet></router-outlet>

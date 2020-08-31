@@ -7,14 +7,13 @@
         <app-dynamic-form-question [question]="question" [form]="form"></app-dynamic-form-question>
 
         <div class="form-row">
-          <button class="btn btn-primarygit " type="submit" [disabled]="!form.valid">Save</button>
+          <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Check Answer</button>
         </div>
 
       </form>
-
     </div>
   
-    <div *ngIf="payLoad" class="form-row">
+    <!-- <div *ngIf="payLoad" class="form-row">
       <strong>Saved the following values</strong><br>{{payLoad}}
-    </div>
+    </div> -->
 </div>

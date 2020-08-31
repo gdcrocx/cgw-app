@@ -9,6 +9,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { QuestionComponent } from './components/question/question.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { DynamicFormQuestionComponent } from './components/dynamic-form-question/dynamic-form-question.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DynamicFormQuestionComponent } from './components/dynamic-form-question
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -42,6 +42,6 @@ export class QuestionComponent {
   questions$: Observable<QuestionBase<any>[]>;
 
   constructor(service: QuestionService) {
-    this.questions$ = service.getQuestions();
+    this.questions$ = service.getAwsQuestions();
   }
 }

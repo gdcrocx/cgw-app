@@ -7,6 +7,8 @@ import { QuestionBase } from './question-base';
 import { TextboxQuestion } from './question-textbox';
 import { isNgTemplate } from '@angular/compiler';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable()
 export class QuestionService {
 
@@ -52,7 +54,7 @@ export class QuestionService {
     
     let questions: QuestionBase<string>[] = [];
 
-    this.http.get<any>("http://192.168.2.41:3000/question/aws/all").subscribe(data => {
+    this.http.get<any>(environment.serviceUrl + "/question/aws/all").subscribe(data => {
       console.log(data);
       // this.response = data;
 
@@ -74,12 +76,8 @@ export class QuestionService {
         }        
       )         
     })
-
-    // console.dir(response);
-    // console.log(response);
-
-    
-
+  // console.dir(response);
+  // console.log(response);
   //       // {
   //       //   key : "cgw_aws_q_id",
   //       //   label : "cgw_aws_q_text",

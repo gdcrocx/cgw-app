@@ -7,13 +7,13 @@ import { QuestionBase } from './question-base';
 export class QuestionControlService {
   constructor() { }
 
-  toFormGroup(questions: QuestionBase<string>[] ) {
+  toFormGroup(question: QuestionBase<string> ) {
     const group: any = {};
 
-    questions.forEach(question => {
-      group[question.key] = question.required ? new FormControl(question.value || '', Validators.required)
-                                              : new FormControl(question.value || '');
-    });
+    // questions.forEach(question => {
+    // console.dir(question);
+    group[question.key] = question.required ? new FormControl(question.value || '', Validators.required) : new FormControl(question.value || '');
+    // });
     return new FormGroup(group);
   }
 }

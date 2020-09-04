@@ -1,0 +1,31 @@
+.customButton { 
+    color: grey;
+    font-weight: 700;
+    padding: 1rem 3rem;
+    border: 0;
+    border-radius: 0.5rem;
+    font-size: medium;
+    width: 80%;
+    margin-left: 10%;
+}
+
+.loginForm {
+    margin-top: 25%;
+}
+
+.pageTitle {
+    font-size: 2rem;
+    font-style: italic;
+    font-weight: bolder;
+    font-family: 'Arial'; 
+    padding: 0.75rem 0 0 0; 
+    text-align: center;
+   }
+
+.marginTop {
+    margin-top: 2rem;
+}
+
+input {
+    height: 3rem;
+}

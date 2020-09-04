@@ -1,5 +1,3 @@
-import { trend_app_protect } from 'trend_app_protect';
-
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 

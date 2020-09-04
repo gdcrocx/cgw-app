@@ -1,22 +1,37 @@
-<div [formGroup]="form">
-    <label [attr.for]="question.key">{{question.label}}</label>
-  
-    <div [ngSwitch]="question.controlType">
-  
-      <input *ngSwitchCase="'textbox'" [formControlName]="question.key"
-              [id]="question.key" [type]="question.type" class="form-control">
+<div [formGroup]="form" class="container">
+  <!-- {{question.key}} - {{question.label}} - {{question.type}} - {{question.hint}} - {{question.value}} - {{question.controlType}} -->
+  <label [attr.for]="question.key" class="marginTop marginLeft">
+    <span class="bolderText">Q:</span>
+    {{question.label}}
+  </label>
 
-      <button class="btn btn-success" (click)="toggleHintOn()">Get Hint!</button>
-      
-      <div *ngIf="showHint">
-        <span class="hint">{{question.hint}}</span>
-      </div>
-  
-      <select *ngSwitchCase="'dropdown'" [formControlName]="question.key" [id]="question.key">
-        <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
-      </select>
-  
-    </div>
-  
-    <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>
+  <div [ngSwitch]="question.controlType" class="form-row">
+
+    <input *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type"
+      [placeholder]="question.value" class="form-control marginTop inputTextBox container">
+
+    <select *ngSwitchCase="'dropdown'" [formControlName]="question.key" [id]="question.key" class="marginTop container">
+      <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+    </select>
+
   </div>
+
+  <div *ngIf="showHint" class="marginTop form-row">
+    <span class="inputTextBox container">
+      <span class="boldText greenText">Hint: </span>
+      <span class="hint greenText">{{question.hint}}</span>
+    </span>
+  </div>
+
+  <!-- <div class="errorMessage" *ngIf="!isValid">{{question.value}} is required</div> -->
+
+  <div class="form-row marginTop container">
+    <button class="btn btn-primary customButton centerButton" type="submit" [disabled]="!form.valid">Check Answer</button>
+  </div>
+
+  <div class="floatRight marginTop">
+    <input type="button" class="btn customButton greyButton displayInline" (click)="toggleHintOn(question.key)" value="Hint" />
+    <input *ngIf="showSkip" type="button" class="btn customButton greyButton displayInline" (click)="toggleSkipOn()" value="Skip" />
+  </div>
+
+</div>

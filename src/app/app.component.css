@@ -5,22 +5,31 @@ body {
 }
 
 .siteLogo {
- width: 10rem;
- height: auto;
- background: cover;    
+  width: 13rem;
+  height: auto;
+  background: cover;   
+  padding: 0.75rem; 
+  margin: 0 0.75rem 0 0.75rem; 
 }
 
-.siteGradient {
-  background: rgb(237,50,166);
-  background: linear-gradient(135deg, rgba(237,50,166,1) 0%, rgba(182,97,218,1) 50%, rgba(119,27,213,1) 100%);
+.marginTop {
+  margin-top: 1.5rem;
 }
 
 .marginBottom {
   margin-bottom: 1.5rem;
 }
 
-.marginTop {
-  margin-top: 1rem;
+.marginLeft {
+  margin-left: 1rem;
+}
+
+.marginRight {
+  margin-right: 0.35rem;
+}
+
+.margin15 {
+  margin: 1.5rem;
 }
 
 .allZero {
@@ -31,10 +40,6 @@ body {
 a:link, a:active, a:visited, a:hover {
   text-decoration: none;
   color: black;
-}
-
-.marginRight {
-  margin-right: 0.35rem;
 }
 
 #clockdiv-event {
@@ -102,15 +107,6 @@ footer {
   height: 6rem;
 }
 
-.callToActionButton { 
-  color: white;
-  font-weight: 700;
-  padding: 1rem 3rem;
-  border: 0;
-  border-radius: 0.5rem;
-  font-size: medium;
-}
-
 .frontpageBannerText {
   font-weight: 900;
   font-size: 3.25rem;
@@ -167,6 +163,10 @@ footer {
   background: #771bd5;
 }
 
+nav {
+  background-color: #8B8B8B;
+}
+
 nav ul li a {
   color: black;
   text-decoration-line: none;
@@ -189,9 +189,10 @@ nav ul li {
   max-height: 1.5rem;
 }
 
-nav {
+/* nav {
   text-align: center;
-}
+} */
+
 nav ul {
   display: inline-block;
   margin: 0;
@@ -225,4 +226,11 @@ nav ul li:first-child {
 
 .linkButton:first-child {
   margin-left: 3rem;
+}
+
+.teamName {
+  font-size: 2rem;
+  font-family: 'Arial';
+  font-weight: bold;
+  color: #000;
 }

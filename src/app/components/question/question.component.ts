@@ -22,26 +22,24 @@
 
 // }
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { QuestionService } from './question.service';
 import { QuestionBase } from './question-base';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-question',
   template: `
-    <div>
-      <h2>Team ID - </h2>
-      <app-dynamic-form [questions]="questions$ | async"></app-dynamic-form>
-    </div>
+      <app-dynamic-form [question]="question$"></app-dynamic-form>
   `,
   providers:  [QuestionService]
 })
 export class QuestionComponent {
-  questions$: Observable<QuestionBase<any>[]>;
+  question$: QuestionBase<any>;
 
   constructor(service: QuestionService) {
-    this.questions$ = service.getAwsQuestions();
+    this.question$ = service.getAwsQuestions();
+    // console.dir("Service - " + this.question$);
   }
 }

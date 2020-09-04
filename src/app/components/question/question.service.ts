@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { QuestionBase } from './question-base';
 import { TextboxQuestion } from './question-textbox';
@@ -19,62 +19,79 @@ export class QuestionService {
   ) {}
 
   // TODO: get from a remote source of question metadata
-  getQuestions() {
+  getQuestions() : QuestionBase<string> {
 
-    const questions: QuestionBase<string>[] = [
+    const question: QuestionBase<string> = {
+        "key": "firstName",
+        "label": "First name",
+        "value": "Bombasto",
+        "required": true,
+        "hint": "Hint 1",        
+        "order": 1,
+        "controlType": "textbox",
+        "type": "text",
+        "options": []
+      }
+      // ,
+      // new TextboxQuestion({
+      //   key: 'emailAddress',
+      //   label: 'Email',
+      //   type: 'email',
+      //   value: "Email",
+      //   required: true,
+      //   hint: "Hint 2",
+      //   order: 2
+      // }),
+      // new TextboxQuestion({
+      //   key: 'number',
+      //   label: 'Number??',
+      //   type: 'number',
+      //   value: '99999',
+      //   required: true,
+      //   hint: "Hint 3",
+      //   order: 3
+      // })
 
-      new TextboxQuestion({
-        key: 'firstName',
-        label: 'First name',
-        value: 'Bombasto',
-        required: true,
-        hint: "Hint 1",        
-        order: 1
-      }),
-      new TextboxQuestion({
-        key: 'emailAddress',
-        label: 'Email',
-        type: 'email',
-        hint: "Hint 2",
-        order: 2
-      }),
-      new TextboxQuestion({
-        key: 'Question 1',
-        label: 'Yama??',
-        type: 'number',
-        hint: "Hint 3",
-        order: 3
-      })
-    ];
-
-    return of(questions.sort((a, b) => a.order - b.order));
+    // ];
+    // return of(questions.sort((a, b) => a.order - b.order));
+    return question;
   }
 
   getAwsQuestions() {
     
-    let questions: QuestionBase<string>[] = [];
+    let question = new QuestionBase<string>();
 
-    this.http.get<any>(environment.serviceUrl + "/question/aws/all").subscribe(data => {
-      console.log(data);
-      // this.response = data;
+    let params = {
+      "teamUuid": "wejum208",
+      "difficulty": "easy",
+      "platform": "aws"
+    }
 
-      data.forEach(
-        function (item) {
+    this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
+      // console.log(data[0]);
+      question.key = data[0]["cgw_aws_q_id"];
+      question.label = data[0]["cgw_aws_q_text"],
+      question.value = "Answer",
+      question.required = true,
+      question.type = data[0]["cgw_aws_q_type"],
+      question.hint = data[0]["cgw_aws_q_hint"],
+      question.order = data[0]["cgw_aws_q_id"]
+      question.controlType = 'textbox'
           // console.log("Items - " + item);
           // console.dir(item);
-          console.log("Item - " + item["cgw_aws_q_id"])
+          // console.log("Item - " + item["cgw_aws_q_id"])
           // if (item["cgw_aws_q_type"] === "text") {
-          questions.push(
-            new TextboxQuestion({
-              key: item["cgw_aws_q_id"],
-              label: item["cgw_aws_q_text"],
-              type: item["cgw_aws_q_type"],
-              hint: item["cgw_aws_q_hint"],
-              order: 1
-            })
-          )
-        }        
-      )         
+          // question.push(
+          //   new TextboxQuestion({
+          //     key: data["cgw_aws_q_id"],
+          //     label: data["cgw_aws_q_text"],
+          //     value: "Answer",
+          //     required: true,
+          //     type: data["cgw_aws_q_type"],
+          //     hint: data["cgw_aws_q_hint"],
+          //     order: data["cgw_aws_q_id"]
+          //   })
+          // )      
     })
   // console.dir(response);
   // console.log(response);
@@ -90,6 +107,8 @@ export class QuestionService {
   //       // }
   //     }
   //   )
-    return of(questions.sort((a, b) => a.order - b.order));   
+
+    // console.log("Questions - " + question);
+    return question; //of(questions.sort((a, b) => a.order - b.order));   
   }
 }

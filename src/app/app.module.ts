@@ -10,6 +10,9 @@ import { QuestionComponent } from './components/question/question.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { DynamicFormQuestionComponent } from './components/dynamic-form-question/dynamic-form-question.component';
 import { HttpClientModule } from '@angular/common/http';
+import { QuestionCategoryComponent } from './components/question-category/question-category.component';
+
+// import * as trend_app_protect from 'trend_app_protect';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     SignupComponent,
     QuestionComponent,
     DynamicFormComponent,
-    DynamicFormQuestionComponent
+    DynamicFormQuestionComponent,
+    QuestionCategoryComponent
   ],
   imports: [
     BrowserModule,

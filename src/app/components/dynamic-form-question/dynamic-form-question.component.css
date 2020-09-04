@@ -1,0 +1,58 @@
+.paddingQuestion {
+   padding: 2rem;
+}
+
+.customButton {
+   font-weight: 700;
+   padding: 1rem 3rem;
+   border: 0;
+   border-radius: 0.5rem;
+   font-size: medium;
+}
+
+.floatRight {
+   float: right;
+}
+
+.marginTop {
+   margin-top: 2rem;
+}
+
+.marginLeft {
+   margin-left: 4rem;
+}
+
+.inputTextBox {
+   width: 60%;
+   line-height: 2rem;
+}
+
+.centerButton {
+   margin-left: 40%;
+}
+
+.greyButton {
+   color: grey;
+   background-color: #ddd;
+   margin: 1rem;
+}
+
+.greenText {
+   color: green;
+}
+
+.boldText {
+   font-weight: bold;
+   font-size: 1rem;
+}
+
+.bolderText {
+   font-weight: bolder;
+   font-size: 1.15rem;
+}
+
+.hint {
+   font-style: italic;
+   font-weight: normal;
+   font-size: 1rem;
+}

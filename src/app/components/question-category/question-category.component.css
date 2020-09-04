@@ -1,0 +1,53 @@
+.green {
+    background-color: #7ABA42;
+}
+
+.amber {
+    background-color: #FCAE1E;
+}
+
+.red {
+    background-color: #ED2939;
+}
+
+.marginTop {
+    padding-top: 3rem;
+}
+
+.marginBottom {
+    padding-bottom: 1rem;
+}
+
+.tableRow {
+    padding-bottom: 5rem;
+}
+
+.centerText {
+    text-align: center;
+}
+
+.greyText {
+    color: #00000080;
+    font-size: 1.5rem;
+    /* padding: 0.25rem; */
+}
+
+.mainText {
+    font-size: 2rem;
+}
+
+.subText {
+    font-size: 1.75rem;
+}
+
+.buttonCategory {
+    /* padding: 2rem 7rem; */
+    width: 100%;
+    height: 5rem;
+    font-size: 1.5rem;
+}
+
+.icon {
+    width: auto;
+    height: 4rem;
+}

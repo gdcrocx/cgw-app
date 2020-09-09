@@ -30,8 +30,8 @@ export class SignupComponent implements OnInit {
 
     let params = {
       "user_name": this.projectName.value,
-      "user_pass": "cgw-" + this.teamName.value,
-      "user_team_uuid": this.password.value
+      "user_team_uuid": "cgw-" + this.teamName.value,
+      "user_pass": this.password.value
     }
 
     this.http.post<any>(environment.serviceUrl + "/users/signup", params).subscribe(data => {

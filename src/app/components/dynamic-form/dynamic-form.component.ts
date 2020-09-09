@@ -12,19 +12,25 @@ import { QuestionControlService } from '../question/question-control.service';
 })
 export class DynamicFormComponent implements OnInit {
 
-  @Input() question: QuestionBase<string>;
+  question: QuestionBase<string>;
+
+  // @Input() question: QuestionBase<string>;
   form: FormGroup;
   payLoad = '';
 
-  constructor(private qcs: QuestionControlService) { 
+  constructor(private _questionService: QuestionControlService) { 
     // console.log("In Constructor - DynFormComp - " + this.question);
     // console.log("QCS - ");
     // console.log(this.qcs.toFormGroup(this.question))
    }
 
   ngOnInit() {
-    this.form = this.qcs.toFormGroup(this.question);
-    // console.log("Form Init - " + this.question);
+    this._questionService.questionData$.subscribe(data => console.log(data));
+    this.form = this._questionService.toFormGroup(this._questionService.printQuestionData());
+    this.question = this._questionService.printQuestionData();
+    // this.questionService.currentQuestionData.subscribe(question => this.question = question);
+    // console.log("Form Init - ");
+    // console.dir(this.questionService.printQuestionData());
     // console.dir(this.form);
   }
 
@@ -33,5 +39,9 @@ export class DynamicFormComponent implements OnInit {
     // console.log("Form Submit - " + this.question);
     // console.dir(this.form);
   }
+
+  // loadQuestion(paramQuestion) {
+  //   this.form = this.qcs.toFormGroup(paramQuestion);
+  // }
 
 }

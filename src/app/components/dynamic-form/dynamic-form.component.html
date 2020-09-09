@@ -4,8 +4,7 @@
 
       <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
-        <app-dynamic-form-question [question]="question" [form]="form"></app-dynamic-form-question>
-
+        <app-dynamic-form-question [form]="form"></app-dynamic-form-question> <!-- [question]="question"  -->
         <!-- <div class="form-row">
           <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Check Answer</button>
         </div> -->

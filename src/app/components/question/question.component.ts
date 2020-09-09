@@ -31,15 +31,15 @@ import { QuestionBase } from './question-base';
 @Component({
   selector: 'app-question',
   template: `
-      <app-dynamic-form [question]="question$"></app-dynamic-form>
+      <app-dynamic-form></app-dynamic-form> <!-- [question]="question$ -->      
   `,
   providers:  [QuestionService]
 })
 export class QuestionComponent {
-  question$: QuestionBase<any>;
+  // question$: QuestionBase<any>;
 
-  constructor(service: QuestionService) {
-    this.question$ = service.getAwsQuestions();
-    // console.dir("Service - " + this.question$);
-  }
+  // constructor(service: QuestionService) {
+  //   // this.question$ = service.getAwsQuestions();
+  //   // console.dir("Service - " + this.question$);
+  // }
 }

@@ -25,7 +25,11 @@ export class DynamicFormQuestionComponent {
 
   toggleSkipOn() {
     console.log("Enabled Skip...");
-    alert("Hello Skipper!");
+    // alert("Hello Skipper!");
     this.showSkip = true;
+  }
+
+  skipQuestion() {
+    location.href = '/category';
   }
 }

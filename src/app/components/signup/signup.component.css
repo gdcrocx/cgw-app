@@ -29,3 +29,8 @@
 input {
     height: 3rem;
 }
+
+.boldText {
+    font-weight: bolder;
+    font-size: 1.35rem;
+}

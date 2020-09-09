@@ -31,7 +31,34 @@
 
   <div class="floatRight marginTop">
     <input type="button" class="btn customButton greyButton displayInline" (click)="toggleHintOn(question.key)" value="Hint" />
-    <input *ngIf="showSkip" type="button" class="btn customButton greyButton displayInline" (click)="toggleSkipOn()" value="Skip" />
+    <input *ngIf="showSkip" type="button" class="btn customButton greyButton displayInline" (click)="toggleSkipOn()" value="Skip" data-toggle="modal" data-target="#skipModal"/>
+  </div>
+
+  <!-- Button trigger modal -->
+  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="skipModal" tabindex="-1" role="dialog" aria-labelledby="skipModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="skipModalLabel">Skipping a question?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Please Note:</strong> In real-time there is no option to skip an attack.</p>
+          <p>Continue Skipping?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" (click)="skipQuestion()">Skip Question</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>

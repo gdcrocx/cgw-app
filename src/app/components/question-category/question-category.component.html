@@ -12,18 +12,21 @@
         <div class="container tableRow">
             <div class="row">
                 <div class="col-sm">
-                    <button class="btn green buttonCategory" (click)="getNextQuestion()">Easy</button>
-                    <p class="centerText marginTop greyText">15 points</p>
+                    <button class="btn green buttonCategory" (click)="getNextQuestion('easy')" [disabled]="easyBtn">Easy</button>
+                    <p class="centerText marginTop greyText">{{easyQuestionsRemainingCount}} of {{totalQuestionsCount}} questions</p>     
+                    <p class="centerText greyText">15 points</p>                    
                     <p class="centerText greyText">5 minutes</p>
                 </div>
                 <div class="col-sm">
-                    <button class="btn amber buttonCategory" (click)="getNextQuestion()">Medium</button>
-                    <p class="centerText marginTop greyText">30 points</p>
+                    <button class="btn amber buttonCategory" (click)="getNextQuestion('medium')" [disabled]="mediumBtn">Medium</button>
+                    <p class="centerText marginTop greyText">{{mediumQuestionsRemainingCount}} of {{totalQuestionsCount}} questions</p>     
+                    <p class="centerText greyText">30 points</p>                    
                     <p class="centerText greyText">10 minutes</p>
                 </div>
                 <div class="col-sm">
-                    <button class="btn red buttonCategory" (click)="getNextQuestion()">Hard</button>
-                    <p class="centerText marginTop greyText">60 points</p>
+                    <button class="btn red buttonCategory" (click)="getNextQuestion('hard')" [disabled]="hardBtn">Hard</button>
+                    <p class="centerText marginTop greyText">{{hardQuestionsRemainingCount}} of {{totalQuestionsCount}} questions</p>     
+                    <p class="centerText greyText">60 points</p>                    
                     <p class="centerText greyText">20 minutes</p>
                 </div>
             </div>

@@ -10,17 +10,40 @@
     </div> -->
     <p class="container pageTitle">Welcome!</p>
     <form action="/login" method="post" class="container col-lg-6 col-md-8 col-sm-12 col-xs-12 marginTop">
-        <div class="form-group marginTop">
+        <div class="form-group marginTop input-group">
             <!-- <label for="name">Team Name</label> -->
-            <input type="name" class="form-control" id="name" placeholder="Team Name"/>
+            <div class="input-group-prepend">
+                <span class="input-group-text boldLabel" id="basic-addon1">cgw-</span>
+            </div>
+            <input type="name" class="form-control" id="name" placeholder="Team Name" [formControl]="teamName" minlength="8" maxlength="8" required/>
         </div>
         <div class="form-group marginTop">
             <!-- <label for="password">Password</label> -->
-            <input type="password" class="form-control" id="password" placeholder="Password"/>
+            <input type="password" class="form-control" id="password" placeholder="Password" [formControl]="password" minlength="8" maxlength="50" required/>
+        </div>
+
+        <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                class="alert alert-danger">
+            <div *ngIf="name.errors.required">
+                Name is required.
+            </div>
+            <div *ngIf="name.errors.minlength">
+                Name must be at least 4 characters long.
+            </div>
+            <div *ngIf="name.errors.forbiddenName">
+                Name cannot be Bob.
+            </div>
+        </div> -->
+
+        <div class="container marginTop">
+            <!-- <div class="col align-self-start"> -->
+            <button type="submit" class="customButton marginBottom" (click)="login()">Log In</button>
+            <!-- </div> -->
         </div>
         <div class="container marginTop">
             <!-- <div class="col align-self-start"> -->
-            <button type="submit" class="customButton marginBottom">Log In</button>
+            <span *ngIf="errorMessage" name="errorMessage" class="errorMessageText boldText">{{ errorMessage }}</span>
+            <span *ngIf="errorMessageText" name="errorMessageText" class="errorMessageText">{{ errorMessageText }}</span>
             <!-- </div> -->
         </div>
     </form>

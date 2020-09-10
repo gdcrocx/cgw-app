@@ -18,7 +18,11 @@ export class QuestionCategoryComponent implements OnInit {
   easyBtn = true;
   mediumBtn = true;
   hardBtn = true;
-  totalQuestionsCount = 0;
+
+  easyTotalQuestionsCount = 0;
+  mediumTotalQuestionsCount = 0;
+  hardTotalQuestionsCount = 0;
+
   easyQuestionsRemainingCount = 0;
   mediumQuestionsRemainingCount = 0;
   hardQuestionsRemainingCount = 0;
@@ -59,13 +63,13 @@ export class QuestionCategoryComponent implements OnInit {
         question.order = data[0]["cgw_aws_q_id"];
         question.controlType = 'textbox';
         // console.dir(question);
-        this._questionService.loadQuestionData(question);
+        // this._questionService.loadQuestionData(question);
       }
     })
 
     // console.dir(this.questionService.printQuestionData());
 
-    // location.href = "/quiz";
+    location.href = "/quiz";
   }
 
   checkQuestionsCount() {
@@ -124,8 +128,23 @@ export class QuestionCategoryComponent implements OnInit {
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/totalCount", params).subscribe(data => {
-      // console.log(data[0].count);
-      this.totalQuestionsCount = data[0].count
+      // console.log(data);      
+      if (data.length > 0) {
+        data.forEach(item => {
+          if (item.cgw_aws_q_diff == "easy") {
+            if (item.count > 0)              
+              this.easyTotalQuestionsCount = item.count;
+          }
+          else if (item.cgw_aws_q_diff == "medium") {
+            if (item.count > 0)              
+              this.mediumTotalQuestionsCount = item.count;
+          }
+          else if (item.cgw_aws_q_diff == "hard") {
+            if (item.count > 0)              
+              this.hardTotalQuestionsCount = item.count;
+          }
+        });
+      }  
     })    
   }
 

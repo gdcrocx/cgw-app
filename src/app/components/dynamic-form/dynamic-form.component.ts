@@ -12,22 +12,31 @@ import { QuestionControlService } from '../question/question-control.service';
 })
 export class DynamicFormComponent implements OnInit {
 
-  question: QuestionBase<string>;
+  // question: QuestionBase<string>;
 
-  // @Input() question: QuestionBase<string>;
+  @Input() question: QuestionBase<string>;
   form: FormGroup;
   payLoad = '';
 
-  constructor(private _questionService: QuestionControlService) { 
-    // console.log("In Constructor - DynFormComp - " + this.question);
-    // console.log("QCS - ");
-    // console.log(this.qcs.toFormGroup(this.question))
-   }
+  constructor(private qcs: QuestionControlService) { 
+    //   // console.log("In Constructor - DynFormComp - " + this.question);
+    //   // console.log("QCS - ");
+    //   // console.log(this.qcs.toFormGroup(this.question))
+  }
+
+    
+  // constructor(private _questionService: QuestionControlService) { 
+  //   // console.log("In Constructor - DynFormComp - " + this.question);
+  //   // console.log("QCS - ");
+  //   // console.log(this.qcs.toFormGroup(this.question))
+  //  }
 
   ngOnInit() {
-    this._questionService.questionData$.subscribe(data => console.log(data));
-    this.form = this._questionService.toFormGroup(this._questionService.printQuestionData());
-    this.question = this._questionService.printQuestionData();
+    // console.log(this._questionService.printQuestionData());
+    // this._questionService.questionData$.subscribe(data => console.log(data));
+    this.form = this.qcs.toFormGroup(this.question);
+    // this.form = this._questionService.toFormGroup(this._questionService.printQuestionData());
+    // this.question = this._questionService.printQuestionData();
     // this.questionService.currentQuestionData.subscribe(question => this.question = question);
     // console.log("Form Init - ");
     // console.dir(this.questionService.printQuestionData());

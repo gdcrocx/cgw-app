@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.errorMessage = "";
+    this.errorMessageText = "";  
     console.log("Oh-oh! User is now logging in... ¯\\_(ツ)_/¯");
 
     let params = {      

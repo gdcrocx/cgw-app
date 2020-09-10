@@ -8,7 +8,7 @@
   <div [ngSwitch]="question.controlType" class="form-row">
 
     <input *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type"
-      [placeholder]="question.value" class="form-control marginTop inputTextBox container">
+      [placeholder]="question.value" class="form-control marginTop inputTextBox container" minlength="1" maxlength="100" required/>
 
     <select *ngSwitchCase="'dropdown'" [formControlName]="question.key" [id]="question.key" class="marginTop container">
       <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
@@ -26,7 +26,14 @@
   <!-- <div class="errorMessage" *ngIf="!isValid">{{question.value}} is required</div> -->
 
   <div class="form-row marginTop container">
-    <button class="btn btn-primary customButton centerButton" type="submit" [disabled]="!form.valid">Check Answer</button>
+    <button class="btn btn-primary customButton centerButton" type="submit" (click)="checkAnswer()" [formControl]="userAnswer">Check Answer</button> <!-- [disabled]="!form.valid" -->
+  </div>
+
+  <div class="container marginTop">
+    <!-- <div class="col align-self-start"> -->
+    <span *ngIf="errorMessage" name="errorMessage" class="errorMessageText boldText">{{ errorMessage }}</span>
+    <span *ngIf="errorMessageText" name="errorMessageText" class="errorMessageText">{{ errorMessageText }}</span>
+    <!-- </div> -->
   </div>
 
   <div class="floatRight marginTop">

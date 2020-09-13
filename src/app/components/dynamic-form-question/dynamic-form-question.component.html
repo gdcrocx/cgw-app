@@ -1,14 +1,52 @@
+<div class="row borderBottom thinText">
+  <div class="col teamText upCaseText">
+    <span class="greyDarkText">Team A:</span>
+    <span class="greyText">The Drifters</span>
+  </div>
+  <div class="col teamText floatRight greyText">450 total points</div>
+</div>
+<div class="row marginTop">
+  <div class="col bgGrey paddingBottom">
+    <table class="textAlignCenter fullWidth">
+      <tr class="bigText capitalizeText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''">{{ questionDiff }}</tr>
+      <tr class="greyDarkText">Difficulty Level</tr>
+    </table>
+  </div>
+  <div class="col bgGrey marginLeft paddingBottom">
+    <table class="textAlignCenter fullWidth">
+      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''">5:00</tr>
+      <tr class="greyDarkText">Remaining Time</tr>
+    </table>
+  </div>
+  <div class="col bgGrey marginLeft paddingBottom">
+    <table class="textAlignCenter fullWidth">
+      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''" *ngIf="questionDiff==='easy'">{{ easyQuestionsRemainingCount }}/{{ easyQuestionsTotalCount }}</tr>
+      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''" *ngIf="questionDiff==='medium'">{{ mediumQuestionsRemainingCount }}/{{ mediumQuestionsTotalCount }}</tr>
+      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''" *ngIf="questionDiff==='hard'">{{ hardQuestionsRemainingCount }}/{{ hardQuestionsTotalCount }}</tr>
+      <tr class="greyDarkText">Current Question</tr>
+    </table>
+  </div>
+  <div class="col bgGrey marginLeft paddingBottom">
+    <table class="textAlignCenter fullWidth">
+      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''">30/30</tr>
+      <tr class="greyDarkText">Points available</tr>
+    </table>
+  </div>
+</div>
 <div [formGroup]="form" class="container">
   <!-- {{question.key}} - {{question.label}} - {{question.type}} - {{question.hint}} - {{question.value}} - {{question.controlType}} -->
-  <label [attr.for]="question.key" class="marginTop marginLeft">
-    <span class="bolderText">Q:</span>
-    {{question.label}}
+  <label [attr.for]="question.key" class="marginTop marginLeft4">
+    <table>
+      <tr class="boldText greyDarkText">Question:</tr>
+      <tr>{{question.label}}</tr>
+    </table>
   </label>
 
   <div [ngSwitch]="question.controlType" class="form-row">
 
     <input *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type"
-      [placeholder]="question.value" class="form-control marginTop inputTextBox container" minlength="1" maxlength="100" required/>
+      [placeholder]="question.value" class="form-control marginTop inputTextBox container" [formControl]="userAnswer"
+      minlength="1" maxlength="100" required />
 
     <select *ngSwitchCase="'dropdown'" [formControlName]="question.key" [id]="question.key" class="marginTop container">
       <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
@@ -16,7 +54,7 @@
 
   </div>
 
-  <div *ngIf="showHint" class="marginTop form-row">
+  <div *ngIf="showHintText" class="marginTop form-row">
     <span class="inputTextBox container">
       <span class="boldText greenText">Hint: </span>
       <span class="hint greenText">{{question.hint}}</span>
@@ -26,19 +64,27 @@
   <!-- <div class="errorMessage" *ngIf="!isValid">{{question.value}} is required</div> -->
 
   <div class="form-row marginTop container">
-    <button class="btn btn-primary customButton centerButton" type="submit" (click)="checkAnswer()" [formControl]="userAnswer">Check Answer</button> <!-- [disabled]="!form.valid" -->
+    <button class="btn btn-primary customButton centerButton" type="submit" (click)="checkAnswer()">Check
+      Answer</button> <!-- [disabled]="!form.valid" -->
   </div>
 
   <div class="container marginTop">
     <!-- <div class="col align-self-start"> -->
     <span *ngIf="errorMessage" name="errorMessage" class="errorMessageText boldText">{{ errorMessage }}</span>
     <span *ngIf="errorMessageText" name="errorMessageText" class="errorMessageText">{{ errorMessageText }}</span>
+    <span *ngIf="successMessage" name="successMessage" class="successMessageText boldText">{{ successMessage }}</span>
+    <span *ngIf="successMessageText" name="successMessageText"
+      class="successMessageText">{{ successMessageText }}</span>
     <!-- </div> -->
   </div>
 
   <div class="floatRight marginTop">
-    <input type="button" class="btn customButton greyButton displayInline" (click)="toggleHintOn(question.key)" value="Hint" />
-    <input *ngIf="showSkip" type="button" class="btn customButton greyButton displayInline" (click)="toggleSkipOn()" value="Skip" data-toggle="modal" data-target="#skipModal"/>
+    <input *ngIf="showHint" type="button" class="btn customButton greyButton displayInline"
+      (click)="toggleHintOn(question.key)" value="Hint" />
+    <input *ngIf="showSkip" type="button" class="btn customButton greyButton displayInline" (click)="toggleSkipOn()"
+      value="Skip" data-toggle="modal" data-target="#skipModal" />
+    <input *ngIf="showNextQuestion" type="button" class="btn customButton greyButton displayInline"
+      (click)="nextQuestion()" value="Next Question" />
   </div>
 
   <!-- Button trigger modal -->

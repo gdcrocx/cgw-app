@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { QuestionControlService } from '../question/question-control.service';
 import { QuestionBase } from '../question/question-base';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-question-category',
@@ -29,46 +30,55 @@ export class QuestionCategoryComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private _questionService: QuestionControlService
+    private _questionService: QuestionControlService,
+    private localStorage: LocalStorageService
   ) { }
 
   ngOnInit(): void {
+    if (!this.localStorage.keyExists("teamUuid") || !this.localStorage.keyExists("platform")) {
+      location.href = "/login"
+    }
     // this.questionService.currentQuestionData.subscribe(question => this.question = question);
     // console.log(this.question);
     this.checkQuestionsCount();
     this.getTotalQuestionsCount();
   }
 
-  getNextQuestion(questionCategory) {
+  // getNextQuestion(questionCategory) {
 
-    console.log("Get Next Question...");
+  //   console.log("Get Next Question...");
 
-    let params = {
-      "platform": "aws",
-      "difficulty": questionCategory,
-      "teamUuid": "wejum208"
-    }
+  //   let params = {
+  //     "platform": this.localStorage.getFromCgwLocalStorage("platform"),
+  //     "difficulty": questionCategory,
+  //     "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
+  //   }
 
-    let question = new QuestionBase<string>();
+  //   let question = new QuestionBase<string>();
 
-    this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
-      console.log(data);
-      if (data.length > 0) {
-        question.key = data[0]["cgw_aws_q_id"];
-        question.label = data[0]["cgw_aws_q_text"];
-        question.value = "Answer";
-        question.required = true;
-        question.type = data[0]["cgw_aws_q_type"];
-        question.hint = data[0]["cgw_aws_q_hint"];
-        question.order = data[0]["cgw_aws_q_id"];
-        question.controlType = 'textbox';
-        // console.dir(question);
-        // this._questionService.loadQuestionData(question);
-      }
-    })
+  //   this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
+  //     console.log(data);
+  //     if (data.length > 0) {
+  //       question.key = data[0]["cgw_aws_q_id"];
+  //       question.label = data[0]["cgw_aws_q_text"];
+  //       question.value = "Answer";
+  //       question.required = true;
+  //       question.type = data[0]["cgw_aws_q_type"];
+  //       question.hint = data[0]["cgw_aws_q_hint"];
+  //       question.order = data[0]["cgw_aws_q_id"];
+  //       question.controlType = 'textbox';
+  //       // console.dir(question);
+  //       // this._questionService.loadQuestionData(question);
+  //     }
+  //   })
 
-    // console.dir(this.questionService.printQuestionData());
+  //   // console.dir(this.questionService.printQuestionData());
 
+  //   location.href = "/quiz";
+  // }
+
+  setNextQuestion(questionCategory) {
+    this.localStorage.storeOnCgwLocalStorage("currentQuestionDiff", questionCategory);
     location.href = "/quiz";
   }
 
@@ -77,8 +87,8 @@ export class QuestionCategoryComponent implements OnInit {
     console.log("Getting All Questions...");
 
     let params = {
-      "platform": "aws",      
-      "teamUuid": "wejum208"
+      "platform": this.localStorage.getFromCgwLocalStorage("platform"),
+      "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid")
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/count", params).subscribe(data => {
@@ -124,7 +134,7 @@ export class QuestionCategoryComponent implements OnInit {
     console.log("Getting All Questions Count...");
 
     let params = {
-      "platform": "aws"      
+      "platform": this.localStorage.getFromCgwLocalStorage("platform")      
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/totalCount", params).subscribe(data => {

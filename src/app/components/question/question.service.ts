@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { of, Observable } from 'rxjs';
@@ -8,15 +8,23 @@ import { TextboxQuestion } from './question-textbox';
 import { isNgTemplate } from '@angular/compiler';
 
 import { environment } from '../../../environments/environment';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Injectable()
-export class QuestionService {
+export class QuestionService implements OnInit {
 
   response: any;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private localStorage: LocalStorageService
   ) {}
+
+  ngOnInit() {
+    if (!this.localStorage.keyExists("teamUuid") || !this.localStorage.keyExists("platform")) {
+      location.href = "/login"
+    }
+  }
 
   // TODO: get from a remote source of question metadata
   getQuestions() : QuestionBase<string> {
@@ -61,10 +69,12 @@ export class QuestionService {
     
     let question = new QuestionBase<string>();
 
+    // console.log(this.localStorage.keyExists("teamUuid"));
+
     let params = {
-      "teamUuid": "wejum208",
+      "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
       "difficulty": "easy",
-      "platform": "aws"
+      "platform": this.localStorage.getFromCgwLocalStorage("platform")
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {

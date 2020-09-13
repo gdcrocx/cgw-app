@@ -3,6 +3,8 @@ import { FormGroup } from '@angular/forms';
 
 import { QuestionBase } from '../question/question-base';
 import { QuestionControlService } from '../question/question-control.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -18,7 +20,10 @@ export class DynamicFormComponent implements OnInit {
   form: FormGroup;
   payLoad = '';
 
-  constructor(private qcs: QuestionControlService) { 
+  constructor(
+    private qcs: QuestionControlService,
+    private localStorage: LocalStorageService
+  ) { 
     //   // console.log("In Constructor - DynFormComp - " + this.question);
     //   // console.log("QCS - ");
     //   // console.log(this.qcs.toFormGroup(this.question))
@@ -32,6 +37,9 @@ export class DynamicFormComponent implements OnInit {
   //  }
 
   ngOnInit() {
+    if (!this.localStorage.keyExists("teamUuid") || !this.localStorage.keyExists("platform")) {
+      location.href = "/login"
+    }
     // console.log(this._questionService.printQuestionData());
     // this._questionService.questionData$.subscribe(data => console.log(data));
     this.form = this.qcs.toFormGroup(this.question);

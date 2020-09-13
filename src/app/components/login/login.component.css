@@ -1,6 +1,7 @@
 .customButton { 
-    color: grey;
-    font-weight: 700;
+    color: white;
+    background-color: #CC0001;
+    font-weight: 600;
     padding: 1rem 3rem;
     border: 0;
     border-radius: 0.5rem;
@@ -16,11 +17,11 @@
 .pageTitle {
     font-size: 2rem;
     font-style: italic;
-    font-weight: bolder;
+    font-weight: normal;
     font-family: 'Arial'; 
     padding: 0.75rem 0 0 0; 
     text-align: center;
-   }
+}
 
 .marginTop {
     margin-top: 2rem;

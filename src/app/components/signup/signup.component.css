@@ -1,12 +1,19 @@
 .customButton { 
-    color: grey;
-    font-weight: 700;
+    color: white;
+    background-color: #CC0001;
+    font-weight: 600;
     padding: 1rem 3rem;
     border: 0;
     border-radius: 0.5rem;
     font-size: medium;
     width: 80%;
     margin-left: 10%;
+}
+
+.customDarkButton {
+    margin-top: 4rem;    
+    color: #4D4D4F;
+    background-color: #E6E7E9;
 }
 
 .loginForm {
@@ -16,11 +23,11 @@
 .pageTitle {
     font-size: 2rem;
     font-style: italic;
-    font-weight: bolder;
+    font-weight: normal;
     font-family: 'Arial'; 
     padding: 0.75rem 0 0 0; 
     text-align: center;
-   }
+}
 
 .marginTop {
     margin-top: 2rem;
@@ -34,3 +41,16 @@ input {
     font-weight: bolder;
     font-size: 1.35rem;
 }
+
+.floatRight {
+    float: right;
+}
+
+.errorMessageText {    
+    font-size: 1rem;
+    color: #ED2939;
+}
+
+/* .boldText {
+    font-weight: bolder;
+} */

@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-signup',
@@ -10,16 +11,19 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
-  projectName = new FormControl();
+  
   teamName = new FormControl();
   password = new FormControl();
+  errorMessage = "";
+  errorMessageText = "";  
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private localStorage: LocalStorageService
   ) { }
 
   ngOnInit(): void {
+    this.localStorage.deleteCgwLocalStorage();
   }
 
   signUp() {
@@ -29,17 +33,33 @@ export class SignupComponent implements OnInit {
     // console.log(this.password.value);
 
     let params = {
-      "user_name": this.projectName.value,
-      "user_team_uuid": "cgw-" + this.teamName.value,
+      "user_name": "cgw-" + this.teamName.value,
+      "user_team_uuid": this.teamName.value,
       "user_pass": this.password.value
     }
 
     this.http.post<any>(environment.serviceUrl + "/users/signup", params).subscribe(data => {
-      // console.log(data[0]);  
+      // console.log(data);  
+      let err = 0;
       if (data.length > 0) {
-        location.href = "/login";
+        if ('user_team_uuid' in data[0]) {
+          console.log("Logging in...");
+          location.href = "/login";
+        } else {
+          err = 1;
+        }      
+      } else {
+        err = 1;
+      }
+      if (err == 1) {
+        this.errorMessage = "Login Invalid."
+        this.errorMessageText = " Try again. Contact Team for more info";
       }
     })    
+  }
+
+  skipToLogin() {
+    location.href = "/login";
   }
 }
 

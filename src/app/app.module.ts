@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
+import { StorageServiceModule } from 'ngx-webstorage-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,8 +12,6 @@ import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.com
 import { DynamicFormQuestionComponent } from './components/dynamic-form-question/dynamic-form-question.component';
 import { HttpClientModule } from '@angular/common/http';
 import { QuestionCategoryComponent } from './components/question-category/question-category.component';
-
-// import * as trend_app_protect from 'trend_app_protect';
 
 @NgModule({
   declarations: [
@@ -29,9 +28,10 @@ import { QuestionCategoryComponent } from './components/question-category/questi
     ReactiveFormsModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StorageServiceModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

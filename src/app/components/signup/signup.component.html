@@ -2,10 +2,9 @@
     <p class="container pageTitle">Sign Up!</p>
     <!-- <div class="marginBottom"> -->
         <form action="/signup" method="post" class="container col-lg-6 col-md-8 col-sm-12 col-xs-12 marginTop">
-            <div class="form-group marginTop">
-                <!-- <label for="projectName">Project Name</label> -->
+            <!-- <div class="form-group marginTop">                
                 <input type="name" class="form-control" id="projectName" placeholder="Team Name" [formControl]="projectName" minlength="3" maxlength="50" required/>
-            </div>
+            </div> -->
             <div class="form-group input-group marginTop">
                 <!-- <label for="teamName">Team Name</label> -->
                 <div class="input-group-prepend">
@@ -23,6 +22,15 @@
                 <button type="submit" class="customButton marginBottom" (click)="signUp()">Sign Up</button>
                 <!-- </div> -->
             </div>
-        </form>
+            <div class="container marginTop">
+                <!-- <div class="col align-self-start"> -->
+                <span *ngIf="errorMessage" name="errorMessage" class="errorMessageText boldText">{{ errorMessage }}</span>
+                <span *ngIf="errorMessageText" name="errorMessageText" class="errorMessageText">{{ errorMessageText }}</span>
+                <!-- </div> -->
+            </div>
+        </form>       
     <!-- </div> -->
+</div>
+<div class="marginTop floatRight col-lg-4 col-md-5 col-sm-5">
+    <button type="submit" class="customButton customDarkButton marginBottom" (click)="skipToLogin()">Jump to Login</button>
 </div>

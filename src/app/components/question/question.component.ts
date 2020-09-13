@@ -26,6 +26,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { QuestionService } from './question.service';
 import { QuestionBase } from './question-base';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 // import { Observable } from 'rxjs';
 
 @Component({
@@ -35,11 +36,21 @@ import { QuestionBase } from './question-base';
   `,
   providers:  [QuestionService]
 })
-export class QuestionComponent {
+export class QuestionComponent implements OnInit {
+
   question$: QuestionBase<any>;
 
-  constructor(service: QuestionService) {
-    this.question$ = service.getAwsQuestions();
+  constructor(
+    private questionService: QuestionService,
+    private localStorage: LocalStorageService
+  ) {
     // console.dir("Service - " + this.question$);
+  }
+
+  ngOnInit() {
+    if (!this.localStorage.keyExists("teamUuid") || !this.localStorage.keyExists("platform")) {
+      location.href = "/login"
+    }
+    this.question$ = this.questionService.getAwsQuestions();
   }
 }

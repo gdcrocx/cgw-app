@@ -5,7 +5,7 @@ body {
 }
 
 .siteLogo {
-  width: 13rem;
+  width: 11rem;
   height: auto;
   background: cover;   
   padding: 0.75rem; 
@@ -164,7 +164,8 @@ footer {
 }
 
 nav {
-  background-color: #8B8B8B;
+  background-color: #E6E7E9;
+  border-bottom: 0.6rem solid #4D4D4F;
 }
 
 nav ul li a {
@@ -193,7 +194,7 @@ nav ul li {
   text-align: center;
 } */
 
-nav ul {
+/* nav ul {
   display: inline-block;
   margin: 0;
   padding: 0;    
@@ -202,17 +203,16 @@ nav ul {
 }
 nav li {
   float: left;
-  padding: 2rem 2rem;
-  /* border: 1px solid black; */
+  padding: 2rem 2rem;  
   list-style: none;
 }
 
 nav ul li:first-child {
   padding: 0;
   margin: 0;
-}
+} */
 
-.linkButton {
+/* .linkButton {
   margin: 1rem 0.25rem;
   padding: 1rem;
   border: 0;
@@ -226,11 +226,27 @@ nav ul li:first-child {
 
 .linkButton:first-child {
   margin-left: 3rem;
-}
+} */
 
 .teamName {
   font-size: 2rem;
   font-family: 'Arial';
   font-weight: bold;
   color: #000;
+}
+
+.redText {
+  color: #CC0001;
+}
+
+.titleText {
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.subTitleText {
+  font-size: 1.5rem;
+  font-weight: lighter;
+  text-align: center;
 }

@@ -80,7 +80,6 @@ export class DynamicFormQuestionComponent implements OnInit {
   }
 
   skipQuestion() {
-
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform"),
       "cgw_aws_q_id": this.q_key,
@@ -92,6 +91,7 @@ export class DynamicFormQuestionComponent implements OnInit {
       if (data.length > 0) {        
         if ('cgw_q_lock_status' in data[0]) {
           if (data[0].cgw_q_lock_status == 1) {
+            this.getNextQuestion(this.q_diff);
             location.href = '/category';
           } else {
             console.log("Error 444: Could not unlock question.")
@@ -123,19 +123,24 @@ export class DynamicFormQuestionComponent implements OnInit {
 
     this.http.post<any>(environment.serviceUrl + "/question/checkAnswer", params).subscribe(data => {
       // console.log(data[0]);  
-      console.log(params);
+      if (data === []) {
+        // this.easyQuestionsRemainingCount = 0;
+        // this.mediumQuestionsRemainingCount = 0;
+        // this.hardQuestionsRemainingCount = 0;
+        location.href = "/category";
+      }
+      // console.log(params);
       if (data.length > 0) {        
         if ('response' in data[0]) {
           if (data[0].response == 1) {
-            this.successMessage = "Congratulations!"
-            this.successMessageText = " You are one step closer to having a secure environment."
             this.showHint = false;
             this.showSkip = false;
             this.showNextQuestion = true;   
             this.getNextQuestion(this.q_diff);  
             this.checkQuestionsCount();
             this.getTotalQuestionsCount();  
-            this.getTotalScore();     
+            this.getTotalScore();
+            this.resetQuestionForm();
           } else {
             this.errorMessage = "Incorrect!";
             this.errorMessageText = " Try again.";
@@ -163,7 +168,10 @@ export class DynamicFormQuestionComponent implements OnInit {
     // let q = new QuestionBase<string>();
 
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
-      // console.log(data);
+      console.log(data);
+      if (data === []) {
+        location.href = "/category";
+      }
       if (data.length > 0) {
         this.q_key = data[0]["cgw_aws_q_id"];
         this.q_label = data[0]["cgw_aws_q_text"];
@@ -267,6 +275,13 @@ export class DynamicFormQuestionComponent implements OnInit {
         }
       }
     })    
+  }
+
+  resetQuestionForm() {
+    this.showHint = true;
+    this.showHintText = false;
+    this.showNextQuestion = false;
+    this.userAnswer = "";
   }
     
 }

@@ -64,7 +64,7 @@
   <!-- <div class="errorMessage" *ngIf="!isValid">{{ q_value }} is required</div> -->
 
   <div class="form-row marginTop container">
-    <button class="btn btn-primary customButton centerButton" type="submit" (click)="checkAnswer()">Check
+    <button class="btn btn-primary customButton centerButton" type="submit" (click)="checkAnswer()" data-toggle="modal" data-target="#successModal">Check
       Answer</button> <!-- [disabled]="!form.valid" -->
   </div>
 
@@ -72,9 +72,9 @@
     <!-- <div class="col align-self-start"> -->
     <span *ngIf="errorMessage" name="errorMessage" class="errorMessageText boldText">{{ errorMessage }}</span>
     <span *ngIf="errorMessageText" name="errorMessageText" class="errorMessageText">{{ errorMessageText }}</span>
-    <span *ngIf="successMessage" name="successMessage" class="successMessageText boldText">{{ successMessage }}</span>
+    <!-- <span *ngIf="successMessage" name="successMessage" class="successMessageText boldText">{{ successMessage }}</span>
     <span *ngIf="successMessageText" name="successMessageText"
-      class="successMessageText">{{ successMessageText }}</span>
+      class="successMessageText">{{ successMessageText }}</span> -->
     <!-- </div> -->
   </div>
 
@@ -84,7 +84,7 @@
     <input *ngIf="showSkip" type="button" class="btn customButton greyButton displayInline" (click)="toggleSkipOn()"
       value="Skip" data-toggle="modal" data-target="#skipModal" />
     <input *ngIf="showNextQuestion" type="button" class="btn customButton greyButton displayInline"
-      (click)="nextQuestion()" value="Next Question" />
+      (click)="nextQuestion()" value="Jump to Category" />
   </div>
 
   <!-- Button trigger modal -->
@@ -92,7 +92,27 @@
     Launch demo modal
   </button> -->
 
-  <!-- Modal -->
+  <!-- Success Message Modal -->
+  <div *ngIf="successMessage" class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel" class="successMessageText boldText">Congratulations!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="successMessageText">You are one step closer to a safer and secure environment</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="getNextQuestion(q_diff)" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skip Question Modal -->
   <div class="modal fade" id="skipModal" tabindex="-1" role="dialog" aria-labelledby="skipModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">

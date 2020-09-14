@@ -2,9 +2,9 @@
 
     <!-- <div *ngFor="let question of questions" class="form-row"> -->
 
-      <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <form (ngSubmit)="onSubmit()"> <!-- [formGroup]="form" -->
 
-        <app-dynamic-form-question [question]="question" [form]="form"></app-dynamic-form-question>
+        <app-dynamic-form-question></app-dynamic-form-question> <!-- [question]="question" [form]="form" -->
         <!-- <div class="form-row">
           <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Check Answer</button>
         </div> -->

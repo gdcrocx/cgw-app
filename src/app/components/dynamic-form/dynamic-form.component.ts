@@ -42,7 +42,7 @@ export class DynamicFormComponent implements OnInit {
     }
     // console.log(this._questionService.printQuestionData());
     // this._questionService.questionData$.subscribe(data => console.log(data));
-    this.form = this.qcs.toFormGroup(this.question);
+    // this.form = this.qcs.toFormGroup(this.question);
     // this.form = this._questionService.toFormGroup(this._questionService.printQuestionData());
     // this.question = this._questionService.printQuestionData();
     // this.questionService.currentQuestionData.subscribe(question => this.question = question);
@@ -52,7 +52,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.payLoad = JSON.stringify(this.form.getRawValue());
+    // this.payLoad = JSON.stringify(this.form.getRawValue());
     // console.log("Form Submit - " + this.question);
     // console.dir(this.form);
   }

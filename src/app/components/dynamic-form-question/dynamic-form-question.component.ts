@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { QuestionBase } from '../question/question-base';
 import { environment } from '../../../environments/environment';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-dynamic-form-question',
@@ -22,8 +23,7 @@ export class DynamicFormQuestionComponent implements OnInit {
   showSkip: boolean = false;  
   showNextQuestion: boolean = false;
 
-  userAnswer = new FormControl();
-  questionDiff = "easy";
+  userAnswer = "";
 
   easyQuestionsRemainingCount = 0;
   easyQuestionsTotalCount = 0;
@@ -32,23 +32,20 @@ export class DynamicFormQuestionComponent implements OnInit {
   hardQuestionsRemainingCount = 0;
   hardQuestionsTotalCount = 0;
 
+  totalScore = 0;
+
   q_key = "";
+  q_diff = "";
   q_label = "";
-  q_value = "";
+  q_allottedTime = 0;
+  q_allottedScore = 0;
+  q_currentScore = 0;
+  q_placeholder = "";
   q_required = false;
   q_type = "";
   q_hint = "";
-  q_order = "";
+  // q_order = "";
   q_controlType = "";
-
-  // question.key = data[0]["cgw_aws_q_id"];
-  // question.label = data[0]["cgw_aws_q_text"];
-  // question.value = "Answer";
-  // question.required = true;
-  // question.type = data[0]["cgw_aws_q_type"];
-  // question.hint = data[0]["cgw_aws_q_hint"];
-  // question.order = data[0]["cgw_aws_q_id"];
-  // question.controlType = 'textbox';
 
   errorMessage = "";
   errorMessageText = "";  
@@ -61,14 +58,19 @@ export class DynamicFormQuestionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.questionDiff = this.getQuestionCategory();    
-    // this.getNextQuestion(this.questionDiff);
+    this.q_diff = this.getQuestionCategory();    
+    // console.log(this.q_diff);
+    this.getNextQuestion(this.q_diff);
+    this.getTotalScore();
+    this.checkQuestionsCount();
+    this.getTotalQuestionsCount();
   }
 
   toggleHintOn(questionId) {
     console.log("One hint for Question " + questionId + " coming right up...");
     this.showHintText = true;
     this.showSkip = true;
+    this.q_currentScore = this.q_allottedScore/2;
   }
 
   toggleSkipOn() {
@@ -78,7 +80,25 @@ export class DynamicFormQuestionComponent implements OnInit {
   }
 
   skipQuestion() {
-    location.href = '/category';
+
+    let params = {
+      "platform": this.localStorage.getFromCgwLocalStorage("platform"),
+      "cgw_aws_q_id": this.q_key,
+      "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid")
+    }
+
+    this.http.put<any>(environment.serviceUrl + "/question/unlock", params).subscribe(data => {
+      console.log(data);
+      if (data.length > 0) {        
+        if ('cgw_q_lock_status' in data[0]) {
+          if (data[0].cgw_q_lock_status == 1) {
+            location.href = '/category';
+          } else {
+            console.log("Error 444: Could not unlock question.")
+          }
+        }
+      }
+    })
   }
 
   nextQuestion() {
@@ -92,17 +112,18 @@ export class DynamicFormQuestionComponent implements OnInit {
     this.successMessageText = "";
 
     console.log("Checking answer...");
-    // console.log(this.userAnswer.value);
 
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform"),
-      "cgw_aws_q_id": this.question.key,
-      "user_answer": this.userAnswer.value
+      "cgw_aws_q_id": this.q_key,
+      "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
+      "user_answer": this.userAnswer,
+      "cgw_q_score": this.q_currentScore
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/checkAnswer", params).subscribe(data => {
       // console.log(data[0]);  
-      // console.log(params);
+      console.log(params);
       if (data.length > 0) {        
         if ('response' in data[0]) {
           if (data[0].response == 1) {
@@ -110,7 +131,11 @@ export class DynamicFormQuestionComponent implements OnInit {
             this.successMessageText = " You are one step closer to having a secure environment."
             this.showHint = false;
             this.showSkip = false;
-            this.showNextQuestion = true;            
+            this.showNextQuestion = true;   
+            this.getNextQuestion(this.q_diff);  
+            this.checkQuestionsCount();
+            this.getTotalQuestionsCount();  
+            this.getTotalScore();     
           } else {
             this.errorMessage = "Incorrect!";
             this.errorMessageText = " Try again.";
@@ -135,27 +160,25 @@ export class DynamicFormQuestionComponent implements OnInit {
       "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
     }
 
-    let question = new QuestionBase<string>();
+    // let q = new QuestionBase<string>();
 
-    // this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
-    //   console.log(data);
-    //   if (data.length > 0) {
-    //     this.q_key = data[0]["cgw_aws_q_id"];
-    //     this.q_label = data[0]["cgw_aws_q_text"];
-    //     this.q_value = "Answer";
-    //     this.q_required = true;
-    //     this.q_type = data[0]["cgw_aws_q_type"];
-    //     this.q_hint = data[0]["cgw_aws_q_hint"];
-    //     this.q_order = data[0]["cgw_aws_q_id"];
-    //     this.q_controlType = 'textbox';
-    //     // console.dir(question);
-    //     // this._questionService.loadQuestionData(question);
-    //   }
-    // })
-
-    // console.dir(this.questionService.printQuestionData());
-
-    location.href = "/quiz";
+    this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
+      // console.log(data);
+      if (data.length > 0) {
+        this.q_key = data[0]["cgw_aws_q_id"];
+        this.q_label = data[0]["cgw_aws_q_text"];
+        this.q_allottedTime = data[0]["cgw_aws_q_allottedTime"];
+        this.q_allottedScore = this.q_currentScore = data[0]["cgw_aws_q_score"];
+        this.q_placeholder = "Answer";
+        this.q_required = true;
+        this.q_type = data[0]["cgw_aws_q_type"];
+        this.q_hint = data[0]["cgw_aws_q_hint"];
+        // this.q_order = data[0]["cgw_aws_q_id"];
+        this.q_controlType = 'textbox';
+        // console.dir(question);
+        // this._questionService.loadQuestionData(question);
+      }
+    })
   }
 
   checkQuestionsCount() {
@@ -228,6 +251,21 @@ export class DynamicFormQuestionComponent implements OnInit {
           }
         });
       }  
+    })    
+  }
+
+  getTotalScore() {
+    let params = {
+      "user_team_uuid": this.localStorage.getFromCgwLocalStorage("teamUuid")      
+    }
+
+    this.http.post<any>(environment.serviceUrl + "/users/totalScore", params).subscribe(data => {
+      // console.log(data);
+      if (data.length > 0) {        
+        if ('totalScore' in data[0]) {
+          this.totalScore = data[0].totalScore;
+        }
+      }
     })    
   }
     

@@ -15,15 +15,15 @@ export class QuestionControlService {
   // private _questionSource = new Subject<QuestionBase<string>>();
   // public readonly questionData$ = this._questionSource.asObservable();
 
-  toFormGroup(question: QuestionBase<string>) {
-    const group: any = {};
+  // toFormGroup(question: QuestionBase<string>) {
+  //   const group: any = {};
 
-    // questions.forEach(question => {
-    // console.dir(question);
-    group[question.key] = question.required ? new FormControl(question.value || '', Validators.required) : new FormControl(question.value || '');
-    // });
-    return new FormGroup(group);
-  }
+  //   // questions.forEach(question => {
+  //   // console.dir(question);
+  //   group[question.key] = question.required ? new FormControl(question.value || '', Validators.required) : new FormControl(question.value || '');
+  //   // });
+  //   return new FormGroup(group);
+  // }
 
   // loadQuestionData(question: QuestionBase<string>) {
   //   // console.log("Data loaded - ");

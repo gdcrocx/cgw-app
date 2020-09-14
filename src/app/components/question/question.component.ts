@@ -51,6 +51,6 @@ export class QuestionComponent implements OnInit {
     if (!this.localStorage.keyExists("teamUuid") || !this.localStorage.keyExists("platform")) {
       location.href = "/login"
     }
-    this.question$ = this.questionService.getAwsQuestions();
+    // this.question$ = this.questionService.getAwsQuestions();
   }
 }

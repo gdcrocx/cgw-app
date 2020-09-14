@@ -3,65 +3,65 @@
     <span class="greyDarkText">Team A:</span>
     <span class="greyText">The Drifters</span>
   </div>
-  <div class="col teamText floatRight greyText">450 total points</div>
+  <div class="col teamText floatRight greyText">{{ totalScore }} total points</div>
 </div>
 <div class="row marginTop">
   <div class="col bgGrey paddingBottom">
     <table class="textAlignCenter fullWidth">
-      <tr class="bigText capitalizeText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''">{{ questionDiff }}</tr>
+      <tr class="bigText capitalizeText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">{{ q_diff }}</tr>
       <tr class="greyDarkText">Difficulty Level</tr>
     </table>
   </div>
   <div class="col bgGrey marginLeft paddingBottom">
     <table class="textAlignCenter fullWidth">
-      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''">5:00</tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">{{ q_allottedTime }}:00</tr>
       <tr class="greyDarkText">Remaining Time</tr>
     </table>
   </div>
   <div class="col bgGrey marginLeft paddingBottom">
     <table class="textAlignCenter fullWidth">
-      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''" *ngIf="questionDiff==='easy'">{{ easyQuestionsRemainingCount }}/{{ easyQuestionsTotalCount }}</tr>
-      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''" *ngIf="questionDiff==='medium'">{{ mediumQuestionsRemainingCount }}/{{ mediumQuestionsTotalCount }}</tr>
-      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''" *ngIf="questionDiff==='hard'">{{ hardQuestionsRemainingCount }}/{{ hardQuestionsTotalCount }}</tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='easy'">{{ easyQuestionsRemainingCount }}/{{ easyQuestionsTotalCount }}</tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='medium'">{{ mediumQuestionsRemainingCount }}/{{ mediumQuestionsTotalCount }}</tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='hard'">{{ hardQuestionsRemainingCount }}/{{ hardQuestionsTotalCount }}</tr>
       <tr class="greyDarkText">Current Question</tr>
     </table>
   </div>
   <div class="col bgGrey marginLeft paddingBottom">
     <table class="textAlignCenter fullWidth">
-      <tr class="bigText" [ngClass]="(questionDiff=='easy')?'green':(questionDiff=='medium')?'amber':(questionDiff=='hard')?'red':''">30/30</tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">{{ q_currentScore }}/{{ q_allottedScore }}</tr>
       <tr class="greyDarkText">Points available</tr>
     </table>
   </div>
 </div>
-<div [formGroup]="form" class="container">
-  <!-- {{question.key}} - {{question.label}} - {{question.type}} - {{question.hint}} - {{question.value}} - {{question.controlType}} -->
-  <label [attr.for]="question.key" class="marginTop marginLeft4">
+<div class="container"> <!-- [formGroup]="form" -->
+  <!-- {{ q_key }} - {{ q_label }} - {{ q_type }} - {{ q_hint }} - {{ q_value }} - {{ q_controlType }} -->
+  <label [attr.for]="q_key" class="marginTop marginLeft4">
     <table>
       <tr class="boldText greyDarkText">Question:</tr>
-      <tr>{{question.label}}</tr>
+      <tr>{{ q_label }}</tr>
     </table>
   </label>
 
-  <div [ngSwitch]="question.controlType" class="form-row">
+  <div [ngSwitch]="q_controlType" class="form-row">
 
-    <input *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type"
-      [placeholder]="question.value" class="form-control marginTop inputTextBox container" [formControl]="userAnswer"
-      minlength="1" maxlength="100" required />
+    <input *ngSwitchCase="'textbox'" [name]="userAnswer" [id]="q_key" [type]="q_type"
+      [placeholder]="q_placeholder" class="form-control marginTop inputTextBox container" [(ngModel)]="userAnswer" ngModel
+      minlength="1" maxlength="100" required /> <!-- [formControlName] -->
 
-    <select *ngSwitchCase="'dropdown'" [formControlName]="question.key" [id]="question.key" class="marginTop container">
-      <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
-    </select>
+    <!-- <select *ngSwitchCase="'dropdown'" [formControlName]="q_key" [id]="q_key" class="marginTop container">
+      <option *ngFor="let opt of q_options" [value]="opt.key">{{opt.value}}</option>
+    </select> -->
 
   </div>
 
   <div *ngIf="showHintText" class="marginTop form-row">
     <span class="inputTextBox container">
       <span class="boldText greenText">Hint: </span>
-      <span class="hint greenText">{{question.hint}}</span>
+      <span class="hint greenText">{{ q_hint }}</span>
     </span>
   </div>
 
-  <!-- <div class="errorMessage" *ngIf="!isValid">{{question.value}} is required</div> -->
+  <!-- <div class="errorMessage" *ngIf="!isValid">{{ q_value }} is required</div> -->
 
   <div class="form-row marginTop container">
     <button class="btn btn-primary customButton centerButton" type="submit" (click)="checkAnswer()">Check
@@ -80,7 +80,7 @@
 
   <div class="floatRight marginTop">
     <input *ngIf="showHint" type="button" class="btn customButton greyButton displayInline"
-      (click)="toggleHintOn(question.key)" value="Hint" />
+      (click)="toggleHintOn(q_key)" value="Hint" />
     <input *ngIf="showSkip" type="button" class="btn customButton greyButton displayInline" (click)="toggleSkipOn()"
       value="Skip" data-toggle="modal" data-target="#skipModal" />
     <input *ngIf="showNextQuestion" type="button" class="btn customButton greyButton displayInline"

@@ -14,7 +14,15 @@
   </div>
   <div class="col bgGrey marginLeft paddingBottom">
     <table class="textAlignCenter fullWidth">
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">{{ q_allottedTime }}:00</tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">
+        <countdown #countdown [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
+      </tr>
+      <!-- <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='medium'">
+        <countdown #cd [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
+      </tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='hard'">
+        <countdown #cd [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
+      </tr> -->
       <tr class="greyDarkText">Remaining Time</tr>
     </table>
   </div>

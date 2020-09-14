@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, OnInit } from '@angular/core';
 import { StorageServiceModule } from 'ngx-webstorage-service';
+import { CountdownModule } from 'ngx-countdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,7 +30,8 @@ import { QuestionCategoryComponent } from './components/question-category/questi
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    StorageServiceModule
+    StorageServiceModule,
+    CountdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]

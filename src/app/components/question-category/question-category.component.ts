@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import * as moment from 'moment';
 
 import { environment } from '../../../environments/environment';
 import { QuestionControlService } from '../question/question-control.service';
@@ -42,6 +43,7 @@ export class QuestionCategoryComponent implements OnInit {
     // console.log(this.question);
     this.checkQuestionsCount();
     this.getTotalQuestionsCount();
+    this.updateCurrentTimeSnapshot();
   }
 
   // getNextQuestion(questionCategory) {
@@ -156,6 +158,24 @@ export class QuestionCategoryComponent implements OnInit {
         });
       }  
     })    
+  }
+
+  updateCurrentTimeSnapshot() {
+    this.localStorage.storeOnCgwLocalStorage("currentTimeSnapshot", moment().format());    
+
+    let params = {
+      "user_team_uuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
+      "user_time_snapshot": JSON.stringify(this.localStorage.getFromCgwLocalStorage())
+    }    
+
+    this.http.post<any>(environment.serviceUrl + "/users/saveTimeSnapshot", params).subscribe(data => {
+      // console.log(data[0]);
+      if (data.length > 0) {        
+        if ('cgw_uuid' in data[0]) {
+          console.log("Success: Local Time Snapshot saved successfully in the backend.");
+        }
+      }
+    })
   }
 
 }

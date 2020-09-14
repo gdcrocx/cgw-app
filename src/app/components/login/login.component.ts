@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
       let err = 0;
       if (data.length > 0) {   
         this.localStorage.storeOnCgwLocalStorage('startTime', moment().format());
-        this.localStorage.storeOnCgwLocalStorage('totalTime', '1h30m');     
+        this.localStorage.storeOnCgwLocalStorage('totalTimeInMinutes', '90');     
         this.localStorage.storeOnCgwLocalStorage('endTime', moment().add(1.5, 'hours').format());
         if ('user_team_uuid' in data[0]) {
           this.localStorage.storeOnCgwLocalStorage("teamUuid", data[0].user_team_uuid);

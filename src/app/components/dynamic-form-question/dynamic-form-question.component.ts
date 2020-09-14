@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import * as moment from 'moment';
+import { CountdownComponent } from 'ngx-countdown';
 
 import { QuestionBase } from '../question/question-base';
 import { environment } from '../../../environments/environment';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-dynamic-form-question',
@@ -17,6 +18,8 @@ export class DynamicFormQuestionComponent implements OnInit {
   @Input() question: QuestionBase<string>;
   @Input() form: FormGroup;
   // get isValid() { return this.form.controls[this.question.key].valid; }
+
+  @ViewChild('countdown', { static: false }) counter: CountdownComponent;
   
   showHint: boolean = true;
   showHintText: boolean = false;
@@ -50,7 +53,15 @@ export class DynamicFormQuestionComponent implements OnInit {
   errorMessage = "";
   errorMessageText = "";  
   successMessage = "";
-  successMessageText = "";  
+  successMessageText = "";
+
+  questionClockTimeInMinutes = 0;
+
+  questionClockConfig = {
+    leftTime: this.questionClockTimeInMinutes,
+    format: "mm:ss",
+    demand: false
+  };
 
   constructor(
     private http: HttpClient,
@@ -64,6 +75,7 @@ export class DynamicFormQuestionComponent implements OnInit {
     this.getTotalScore();
     this.checkQuestionsCount();
     this.getTotalQuestionsCount();
+    this.updateCurrentTimeSnapshot();
   }
 
   toggleHintOn(questionId) {
@@ -168,14 +180,19 @@ export class DynamicFormQuestionComponent implements OnInit {
     // let q = new QuestionBase<string>();
 
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       if (data === []) {
         location.href = "/category";
       }
       if (data.length > 0) {
         this.q_key = data[0]["cgw_aws_q_id"];
         this.q_label = data[0]["cgw_aws_q_text"];
+
         this.q_allottedTime = data[0]["cgw_aws_q_allottedTime"];
+        this.questionClockTimeInMinutes = parseInt(data[0]["cgw_aws_q_allottedTime"]);
+        this.questionClockConfig.leftTime = this.questionClockTimeInMinutes * 60;
+        this.counter.config.leftTime = this.questionClockTimeInMinutes * 60;
+
         this.q_allottedScore = this.q_currentScore = data[0]["cgw_aws_q_score"];
         this.q_placeholder = "Answer";
         this.q_required = true;
@@ -183,6 +200,11 @@ export class DynamicFormQuestionComponent implements OnInit {
         this.q_hint = data[0]["cgw_aws_q_hint"];
         // this.q_order = data[0]["cgw_aws_q_id"];
         this.q_controlType = 'textbox';
+        console.log("Q Clock - " + this.questionClockTimeInMinutes);
+        console.log(this.counter.config);
+        // console.log(this.questionClockConfig);
+        // console.log(this.counter);
+        this.counter.begin();
         // console.dir(question);
         // this._questionService.loadQuestionData(question);
       }
@@ -282,6 +304,28 @@ export class DynamicFormQuestionComponent implements OnInit {
     this.showHintText = false;
     this.showNextQuestion = false;
     this.userAnswer = "";
+  }
+
+  updateCurrentTimeSnapshot() {
+    this.localStorage.storeOnCgwLocalStorage("currentTimeSnapshot", moment().format());    
+
+    let params = {
+      "user_team_uuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
+      "user_time_snapshot": JSON.stringify(this.localStorage.getFromCgwLocalStorage())
+    }    
+
+    this.http.post<any>(environment.serviceUrl + "/users/saveTimeSnapshot", params).subscribe(data => {
+      // console.log(data[0]);
+      if (data.length > 0) {        
+        if ('cgw_uuid' in data[0]) {
+          console.log("Success: Local Time Snapshot saved successfully in the backend.");
+        }
+      }
+    })
+  }
+
+  timerEvent(event) {
+    console.log(event);
   }
     
 }

@@ -95,6 +95,7 @@ export class DynamicFormQuestionComponent implements OnInit {
 
   skipQuestion() {
     this.unlockQuestion();
+    location.href = "/category";
   }
 
   unlockQuestion() {

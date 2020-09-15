@@ -12,19 +12,19 @@
         <div class="container tableRow">
             <div class="row">
                 <div class="col-sm">
-                    <button class="btn green buttonCategory" (click)="setNextQuestion('easy')" [disabled]="easyBtn">Easy</button>
+                    <button class="btn green buttonCategory" (click)="setNextQuestionCategory('easy')" [disabled]="easyBtn">Easy</button>
                     <p class="centerText marginTop greyText">{{easyQuestionsRemainingCount}} of {{easyTotalQuestionsCount}} questions</p>     
                     <p class="centerText greyText">15 points</p>                    
                     <p class="centerText greyText">5 minutes</p>
                 </div>
                 <div class="col-sm">
-                    <button class="btn amber buttonCategory" (click)="setNextQuestion('medium')" [disabled]="mediumBtn">Medium</button>
+                    <button class="btn amber buttonCategory" (click)="setNextQuestionCategory('medium')" [disabled]="mediumBtn">Medium</button>
                     <p class="centerText marginTop greyText">{{mediumQuestionsRemainingCount}} of {{mediumTotalQuestionsCount}} questions</p>     
                     <p class="centerText greyText">30 points</p>                    
                     <p class="centerText greyText">10 minutes</p>
                 </div>
                 <div class="col-sm">
-                    <button class="btn red buttonCategory" (click)="setNextQuestion('hard')" [disabled]="hardBtn">Hard</button>
+                    <button class="btn red buttonCategory" (click)="setNextQuestionCategory('hard')" [disabled]="hardBtn">Hard</button>
                     <p class="centerText marginTop greyText">{{hardQuestionsRemainingCount}} of {{hardTotalQuestionsCount}} questions</p>     
                     <p class="centerText greyText">60 points</p>                    
                     <p class="centerText greyText">20 minutes</p>

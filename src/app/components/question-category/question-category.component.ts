@@ -79,7 +79,7 @@ export class QuestionCategoryComponent implements OnInit {
   //   location.href = "/quiz";
   // }
 
-  setNextQuestion(questionCategory) {
+  setNextQuestionCategory(questionCategory) {
     this.localStorage.storeOnCgwLocalStorage("currentQuestionDiff", questionCategory);
     location.href = "/quiz";
   }

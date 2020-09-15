@@ -67,16 +67,18 @@ export class DynamicFormQuestionComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private localStorage: LocalStorageService
-  ) { }
+  ) { 
+    this.teamUuid = this.localStorage.getFromCgwLocalStorage("teamUuid");
+  }
 
   ngOnInit() {
     this.q_diff = this.getQuestionCategory();    
     // console.log(this.q_diff);
     this.getNextQuestion(this.q_diff);
-    this.teamUuid = this.localStorage.getFromCgwLocalStorage("teamUuid");  
-    this.getTotalScore();
+    
     this.checkQuestionsCount();
     this.getTotalQuestionsCount();
+    this.getTotalScore();
     this.updateCurrentTimeSnapshot();
   }
 
@@ -206,12 +208,10 @@ export class DynamicFormQuestionComponent implements OnInit {
       "teamUuid": this.teamUuid
     }
 
-    // let q = new QuestionBase<string>();
-
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
-      // console.log(data);
+      console.log(data);
       if (data.length == 0) {
-        location.href = "/category";
+        // location.href = "/category";
       }
       if (data.length > 0) {
         this.q_key = data[0]["cgw_aws_q_id"];
@@ -237,9 +237,6 @@ export class DynamicFormQuestionComponent implements OnInit {
         // console.dir(question);
         // this._questionService.loadQuestionData(question);
         this.lockQuestion();
-        this.checkQuestionsCount();
-        this.getTotalQuestionsCount();  
-        this.getTotalScore();
         this.resetQuestionForm();
       }
     })

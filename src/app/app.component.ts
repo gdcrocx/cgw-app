@@ -51,6 +51,10 @@ export class AppComponent implements OnInit {
 
   }
 
+  logOut() {
+    location.href = "/login";
+  }
+
   // let eventDeadline;
   // let eventTimeValue = 90;
 

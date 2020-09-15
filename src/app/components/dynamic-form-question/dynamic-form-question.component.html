@@ -1,145 +1,164 @@
-<div class="row borderBottom thinText">
-  <div class="col teamText upCaseText">
-    <span class="greyDarkText">Team:</span>
-    <span class="greyText"> {{ teamUuid }}</span>
+<div class="container">
+  <div class="row borderBottom thinText">
+    <div class="col teamText upCaseText">
+      <span class="greyDarkText">Team:</span>
+      <span class="greyText"> {{ teamUuid }}</span>
+    </div>
+    <!-- <div class="col teamText floatRight greyText">{{ totalScore }} total points</div> -->
   </div>
-  <!-- <div class="col teamText floatRight greyText">{{ totalScore }} total points</div> -->
-</div>
-<div class="row marginTop">
-  <div class="col bgGrey paddingBottom">
-    <table class="textAlignCenter fullWidth">
-      <tr class="bigText capitalizeText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">{{ q_diff }}</tr>
-      <tr class="greyDarkText">Difficulty Level</tr>
-    </table>
+  <div class="row marginTop">
+    <div class="col bgGrey paddingBottom">
+      <table class="textAlignCenter fullWidth">
+        <tr class="bigText capitalizeText"
+          [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">{{ q_diff }}</tr>
+        <tr class="greyDarkText">Difficulty Level</tr>
+      </table>
+    </div>
+    <div class="col bgGrey marginLeft paddingBottom">
+      <table class="textAlignCenter fullWidth">
+        <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">
+          <countdown #countdown [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
+        </tr>
+        <!-- <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='medium'">
+          <countdown #cd [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
+        </tr>
+        <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='hard'">
+          <countdown #cd [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
+        </tr> -->
+        <tr class="greyDarkText">Remaining Time</tr>
+      </table>
+    </div>
+    <div class="col bgGrey marginLeft paddingBottom">
+      <table class="textAlignCenter fullWidth">
+        <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''"
+          *ngIf="q_diff==='easy'">
+          {{ (easyQuestionsTotalCount - easyQuestionsRemainingCount) + 1 }}/{{ easyQuestionsTotalCount }}</tr>
+        <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''"
+          *ngIf="q_diff==='medium'">
+          {{ (mediumQuestionsTotalCount - mediumQuestionsRemainingCount) + 1 }}/{{ mediumQuestionsTotalCount }}</tr>
+        <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''"
+          *ngIf="q_diff==='hard'">
+          {{ (hardQuestionsTotalCount - hardQuestionsRemainingCount) + 1 }}/{{ hardQuestionsTotalCount }}</tr>
+        <tr class="greyDarkText">Current Question</tr>
+      </table>
+    </div>
+    <!-- <div class="col bgGrey marginLeft paddingBottom">
+      <table class="textAlignCenter fullWidth">
+        <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">{{ q_currentScore }}/{{ q_allottedScore }}</tr>
+        <tr class="greyDarkText">Points available</tr>
+      </table>
+    </div> -->
   </div>
-  <div class="col bgGrey marginLeft paddingBottom">
-    <table class="textAlignCenter fullWidth">
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">
-        <countdown #countdown [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
-      </tr>
-      <!-- <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='medium'">
-        <countdown #cd [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
-      </tr>
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='hard'">
-        <countdown #cd [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
-      </tr> -->
-      <tr class="greyDarkText">Remaining Time</tr>
-    </table>
-  </div>
-  <div class="col bgGrey marginLeft paddingBottom">
-    <table class="textAlignCenter fullWidth">
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='easy'">{{ (easyQuestionsTotalCount - easyQuestionsRemainingCount) + 1 }}/{{ easyQuestionsTotalCount }}</tr>
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='medium'">{{ (mediumQuestionsTotalCount - mediumQuestionsRemainingCount) + 1 }}/{{ mediumQuestionsTotalCount }}</tr>
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='hard'">{{ (hardQuestionsTotalCount - hardQuestionsRemainingCount) + 1 }}/{{ hardQuestionsTotalCount }}</tr>
-      <tr class="greyDarkText">Current Question</tr>
-    </table>
-  </div>
-  <!-- <div class="col bgGrey marginLeft paddingBottom">
-    <table class="textAlignCenter fullWidth">
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">{{ q_currentScore }}/{{ q_allottedScore }}</tr>
-      <tr class="greyDarkText">Points available</tr>
-    </table>
-  </div> -->
-</div>
-<div class="container"> <!-- [formGroup]="form" -->
-  <!-- {{ q_key }} - {{ q_label }} - {{ q_type }} - {{ q_hint }} - {{ q_value }} - {{ q_controlType }} -->
-  <label [attr.for]="q_key" class="marginTop marginLeft4">
-    <table>
-      <tr class="boldText greyDarkText">Question:</tr>
-      <tr>{{ q_label }}</tr>
-    </table>
-  </label>
+  <div class="container">
+    <!-- [formGroup]="form" -->
+    <!-- {{ q_key }} - {{ q_label }} - {{ q_type }} - {{ q_hint }} - {{ q_value }} - {{ q_controlType }} -->
+    <label [attr.for]="q_key" class="marginTop marginLeft4">
+      <table>
+        <tr class="boldText greyDarkText">Question:</tr>
+        <tr>{{ q_label }}</tr>
+      </table>
+    </label>
 
-  <div [ngSwitch]="q_controlType" class="form-row">
+    <div [ngSwitch]="q_controlType" class="form-row">
 
-    <input *ngSwitchCase="'textbox'" [name]="userAnswer" [id]="q_key" [type]="q_type"
-      [placeholder]="q_placeholder" class="form-control marginTop inputTextBox container" [(ngModel)]="userAnswer" ngModel
-      minlength="1" maxlength="100" required /> <!-- [formControlName] -->
+      <input *ngSwitchCase="'textbox'" [name]="userAnswer" [id]="q_key" [type]="q_type" [placeholder]="q_placeholder"
+        class="form-control marginTop inputTextBox container" [(ngModel)]="userAnswer" ngModel minlength="1"
+        maxlength="100" required /> <!-- [formControlName] -->
 
-    <!-- <select *ngSwitchCase="'dropdown'" [formControlName]="q_key" [id]="q_key" class="marginTop container">
-      <option *ngFor="let opt of q_options" [value]="opt.key">{{opt.value}}</option>
-    </select> -->
+      <!-- <select *ngSwitchCase="'dropdown'" [formControlName]="q_key" [id]="q_key" class="marginTop container">
+        <option *ngFor="let opt of q_options" [value]="opt.key">{{opt.value}}</option>
+      </select> -->
 
-  </div>
+    </div>
 
-  <div *ngIf="showHintText" class="marginTop form-row">
-    <span class="inputTextBox container">
-      <span class="boldText greenText">Hint: </span>
-      <span class="hint greenText">{{ q_hint }}</span>
-    </span>
-  </div>
+    <div *ngIf="showHintText" class="marginTop form-row">
+      <span class="inputTextBox container">
+        <span class="boldText greenText">Hint: </span>
+        <span class="hint greenText">{{ q_hint }}</span>
+      </span>
+    </div>
 
-  <!-- <div class="errorMessage" *ngIf="!isValid">{{ q_value }} is required</div> -->
+    <!-- <div class="errorMessage" *ngIf="!isValid">{{ q_value }} is required</div> -->
 
-  <div class="form-row marginTop container">
-    <button class="btn btn-primary customButton centerButton" type="submit" (click)="checkAnswer()" data-toggle="modal" data-target="#successModal">Check
-      Answer</button> <!-- [disabled]="!form.valid" -->
-  </div>
+    <div class="form-row marginTop container">
+      <button class="btn btn-primary customButton centerButton" type="submit" (click)="checkAnswer()"
+        data-toggle="modal" data-target="#questionModal">Check
+        Answer</button> <!-- [disabled]="!form.valid" -->
+    </div>
 
-  <div class="container marginTop">
-    <!-- <div class="col align-self-start"> -->
-    <span *ngIf="errorMessage" name="errorMessage" class="errorMessageText boldText">{{ errorMessage }}</span>
-    <span *ngIf="errorMessageText" name="errorMessageText" class="errorMessageText">{{ errorMessageText }}</span>
-    <!-- <span *ngIf="successMessage" name="successMessage" class="successMessageText boldText">{{ successMessage }}</span>
-    <span *ngIf="successMessageText" name="successMessageText"
-      class="successMessageText">{{ successMessageText }}</span> -->
+    <!-- <div class="container marginTop"> -->
+      <!-- <div class="col align-self-start"> -->
+      <!-- <span *ngIf="errorMessage" name="errorMessage" class="errorMessageText boldText">{{ errorMessage }}</span>
+      <span *ngIf="errorMessageText" name="errorMessageText" class="errorMessageText">{{ errorMessageText }}</span> -->
+      <!-- <span *ngIf="successMessage" name="successMessage" class="successMessageText boldText">{{ successMessage }}</span>
+      <span *ngIf="successMessageText" name="successMessageText"
+        class="successMessageText">{{ successMessageText }}</span> -->
+      <!-- </div> -->
     <!-- </div> -->
-  </div>
 
-  <div class="floatRight marginTop">
-    <input *ngIf="showHint" type="button" class="btn customButton greyButton displayInline"
-      (click)="toggleHintOn(q_key)" value="Hint" />
-    <input *ngIf="showSkip" type="button" class="btn customButton greyButton displayInline" (click)="toggleSkipOn()"
-      value="Skip" data-toggle="modal" data-target="#skipModal" />
-    <input *ngIf="showNextQuestion" type="button" class="btn customButton greyButton displayInline"
-      (click)="nextQuestion()" value="Jump to Category" />
-  </div>
+    <div class="floatRight marginTop">
+      <input *ngIf="showHint" type="button" class="btn customButton greyButton displayInline"
+        (click)="toggleHintOn(q_key)" value="Hint" />
+      <input *ngIf="showSkip" type="button" class="btn customButton greyButton displayInline" (click)="toggleSkipOn()"
+        value="Skip" data-toggle="modal" data-target="#skipModal" />
+      <input *ngIf="showNextQuestion" type="button" class="btn customButton greyButton displayInline"
+        (click)="nextQuestion()" value="Jump to Category" />
+    </div>
 
-  <!-- Button trigger modal -->
-  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button> -->
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      Launch demo modal
+    </button> -->
 
-  <!-- Success Message Modal -->
-  <div *ngIf="successMessage == '1'" class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="successModalLabel" class="successMessageText boldText">Congratulations!</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p class="successMessageText">You are one step closer to a safer and secure environment</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" (click)="getNextQuestion(q_diff)" data-dismiss="modal">Close</button>
+    <!-- Question Message Modal -->
+    <div class="modal fade" id="questionModal" tabindex="-1" role="dialog"
+      aria-labelledby="questionModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 *ngIf="successMessage" class="modal-title" id="successModalLabel" class="successMessageText boldText">{{ successMessage }}</h5>
+            <h5 *ngIf="errorMessage" class="modal-title" id="errorModalLabel" class="errorMessageText boldText">{{ errorMessage }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <span *ngIf="successMessage" name="successMessage" class="successMessageText boldText">{{ successMessage }}</span>
+            <span *ngIf="successMessageText" name="successMessageText" class="successMessageText">{{ successMessageText }}</span>
+            <span *ngIf="errorMessage" name="errorMessage" class="errorMessageText boldText">{{ errorMessage }}</span>
+            <span *ngIf="errorMessageText" name="errorMessageText" class="errorMessageText">{{ errorMessageText }}</span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" [ngClass]="(successMessage)?'btn-success':'btn-danger'" (click)="getNextQuestion(q_diff)"
+              data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Skip Question Modal -->
-  <div class="modal fade" id="skipModal" tabindex="-1" role="dialog" aria-labelledby="skipModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="skipModalLabel">Skipping a question?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p><strong>Please Note:</strong> In real-time there is no option to skip an attack.</p>
-          <p>Continue Skipping?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="skipQuestion()">Skip Question</button>
+    <!-- Skip Question Modal -->
+    <div class="modal fade" id="skipModal" tabindex="-1" role="dialog" aria-labelledby="skipModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="skipModalLabel">Skipping a question?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Please Note:</strong> In real-time there is no option to skip an attack.</p>
+            <p>Continue Skipping?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="skipQuestion()">Skip
+              Question</button>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
 
 </div>

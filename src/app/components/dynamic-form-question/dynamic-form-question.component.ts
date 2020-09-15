@@ -177,8 +177,9 @@ export class DynamicFormQuestionComponent implements OnInit {
           if (data[0].response == 1) {
             this.showHint = false;
             this.showSkip = false;
-            this.showNextQuestion = true;   
-            this.successMessage = "1";
+            this.showNextQuestion = true;
+            this.successMessage = "Congratulations!";
+            this.successMessageText = " You are one step closer to a safer and secure environment";
             this.getNextQuestion(this.q_diff);
           } else {
             this.errorMessage = "Incorrect!";

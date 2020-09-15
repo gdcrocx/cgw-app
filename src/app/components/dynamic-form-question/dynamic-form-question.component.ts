@@ -110,9 +110,8 @@ export class DynamicFormQuestionComponent implements OnInit {
       }
       if (data.length > 0) {        
         if ('cgw_q_lock_status' in data[0]) {
-          if (data[0].cgw_q_lock_status == 1) {
+          if (data[0].cgw_q_lock_status == 0) {
             this.getNextQuestion(this.q_diff);
-            location.href = '/category';
           } else {
             console.log("Error 444: Could not unlock question.")
           }
@@ -135,10 +134,9 @@ export class DynamicFormQuestionComponent implements OnInit {
       if (data.length > 0) {        
         if ('cgw_q_lock_status' in data[0]) {
           if (data[0].cgw_q_lock_status == 1) {
-            this.getNextQuestion(this.q_diff);
-            location.href = '/category';
+            console.log("Success: Question Locked.");
           } else {
-            console.log("Error 444: Could not unlock question.")
+            console.log("Error 444: Could not unlock question.");
           }
         }
       }
@@ -166,7 +164,7 @@ export class DynamicFormQuestionComponent implements OnInit {
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/checkAnswer", params).subscribe(data => {
-      // console.log(data[0]);  
+      console.log(data[0]);  
       if (data.length == 0) {
         // this.easyQuestionsRemainingCount = 0;
         // this.mediumQuestionsRemainingCount = 0;
@@ -180,11 +178,8 @@ export class DynamicFormQuestionComponent implements OnInit {
             this.showHint = false;
             this.showSkip = false;
             this.showNextQuestion = true;   
-            this.getNextQuestion(this.q_diff);  
-            this.checkQuestionsCount();
-            this.getTotalQuestionsCount();  
-            this.getTotalScore();
-            this.resetQuestionForm();
+            this.successMessage = "1";
+            this.getNextQuestion(this.q_diff);
           } else {
             this.errorMessage = "Incorrect!";
             this.errorMessageText = " Try again.";
@@ -240,13 +235,17 @@ export class DynamicFormQuestionComponent implements OnInit {
         // console.dir(question);
         // this._questionService.loadQuestionData(question);
         this.lockQuestion();
+        this.checkQuestionsCount();
+        this.getTotalQuestionsCount();  
+        this.getTotalScore();
+        this.resetQuestionForm();
       }
     })
   }
 
   checkQuestionsCount() {
 
-    console.log("Getting All Questions...");
+    // console.log("Getting All Questions...");
 
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform"),
@@ -290,7 +289,7 @@ export class DynamicFormQuestionComponent implements OnInit {
 
   getTotalQuestionsCount() {
 
-    console.log("Getting All Questions Count...");
+    // console.log("Getting All Questions Count...");
 
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform")      

@@ -7,6 +7,7 @@ import { QuestionComponent } from './components/question/question.component';
 import { QuestionCategoryComponent } from './components/question-category/question-category.component';
 
 const routes: Routes = [
+  { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'quiz', component: QuestionComponent },

@@ -101,7 +101,7 @@
   </button> -->
 
   <!-- Success Message Modal -->
-  <div *ngIf="successMessage" class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModal" aria-hidden="true">
+  <div *ngIf="successMessage == '1'" class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -136,7 +136,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger" (click)="skipQuestion()">Skip Question</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="skipQuestion()">Skip Question</button>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serviceUrl: "http://172.16.113.151:3000",
+  serviceUrl: "http://172.16.113.154:3000",
   showConformityLink: false
 };
 

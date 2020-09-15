@@ -1,9 +1,9 @@
 <div class="row borderBottom thinText">
   <div class="col teamText upCaseText">
-    <span class="greyDarkText">Team A:</span>
-    <span class="greyText">The Drifters</span>
+    <span class="greyDarkText">Team:</span>
+    <span class="greyText"> {{ teamUuid }}</span>
   </div>
-  <div class="col teamText floatRight greyText">{{ totalScore }} total points</div>
+  <!-- <div class="col teamText floatRight greyText">{{ totalScore }} total points</div> -->
 </div>
 <div class="row marginTop">
   <div class="col bgGrey paddingBottom">
@@ -28,18 +28,18 @@
   </div>
   <div class="col bgGrey marginLeft paddingBottom">
     <table class="textAlignCenter fullWidth">
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='easy'">{{ easyQuestionsRemainingCount }}/{{ easyQuestionsTotalCount }}</tr>
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='medium'">{{ mediumQuestionsRemainingCount }}/{{ mediumQuestionsTotalCount }}</tr>
-      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='hard'">{{ hardQuestionsRemainingCount }}/{{ hardQuestionsTotalCount }}</tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='easy'">{{ (easyQuestionsTotalCount - easyQuestionsRemainingCount) + 1 }}/{{ easyQuestionsTotalCount }}</tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='medium'">{{ (mediumQuestionsTotalCount - mediumQuestionsRemainingCount) + 1 }}/{{ mediumQuestionsTotalCount }}</tr>
+      <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='hard'">{{ (hardQuestionsTotalCount - hardQuestionsRemainingCount) + 1 }}/{{ hardQuestionsTotalCount }}</tr>
       <tr class="greyDarkText">Current Question</tr>
     </table>
   </div>
-  <div class="col bgGrey marginLeft paddingBottom">
+  <!-- <div class="col bgGrey marginLeft paddingBottom">
     <table class="textAlignCenter fullWidth">
       <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">{{ q_currentScore }}/{{ q_allottedScore }}</tr>
       <tr class="greyDarkText">Points available</tr>
     </table>
-  </div>
+  </div> -->
 </div>
 <div class="container"> <!-- [formGroup]="form" -->
   <!-- {{ q_key }} - {{ q_label }} - {{ q_type }} - {{ q_hint }} - {{ q_value }} - {{ q_controlType }} -->

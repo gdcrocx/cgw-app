@@ -26,6 +26,7 @@ export class DynamicFormQuestionComponent implements OnInit {
   showSkip: boolean = false;  
   showNextQuestion: boolean = false;
 
+  teamUuid = "";
   userAnswer = "";
 
   easyQuestionsRemainingCount = 0;
@@ -72,6 +73,7 @@ export class DynamicFormQuestionComponent implements OnInit {
     this.q_diff = this.getQuestionCategory();    
     // console.log(this.q_diff);
     this.getNextQuestion(this.q_diff);
+    this.teamUuid = this.localStorage.getFromCgwLocalStorage("teamUuid");  
     this.getTotalScore();
     this.checkQuestionsCount();
     this.getTotalQuestionsCount();
@@ -92,14 +94,44 @@ export class DynamicFormQuestionComponent implements OnInit {
   }
 
   skipQuestion() {
+    this.unlockQuestion();
+  }
+
+  unlockQuestion() {
     let params = {
-      "platform": this.localStorage.getFromCgwLocalStorage("platform"),
-      "cgw_aws_q_id": this.q_key,
-      "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid")
+      "questionId": this.q_key,
+      "teamUuid": this.teamUuid
     }
 
     this.http.put<any>(environment.serviceUrl + "/question/unlock", params).subscribe(data => {
       console.log(data);
+      if (data.length == 0) {
+        location.href = "/category";
+      }
+      if (data.length > 0) {        
+        if ('cgw_q_lock_status' in data[0]) {
+          if (data[0].cgw_q_lock_status == 1) {
+            this.getNextQuestion(this.q_diff);
+            location.href = '/category';
+          } else {
+            console.log("Error 444: Could not unlock question.")
+          }
+        }
+      }
+    })
+  }
+
+  lockQuestion() {
+    let params = {
+      "questionId": this.q_key,
+      "teamUuid": this.teamUuid
+    }
+
+    this.http.post<any>(environment.serviceUrl + "/question/lock", params).subscribe(data => {
+      console.log(data);
+      if (data.length == 0) {
+        location.href = "/category";
+      }
       if (data.length > 0) {        
         if ('cgw_q_lock_status' in data[0]) {
           if (data[0].cgw_q_lock_status == 1) {
@@ -128,14 +160,14 @@ export class DynamicFormQuestionComponent implements OnInit {
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform"),
       "cgw_aws_q_id": this.q_key,
-      "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
+      "teamUuid": this.teamUuid,
       "user_answer": this.userAnswer,
       "cgw_q_score": this.q_currentScore
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/checkAnswer", params).subscribe(data => {
       // console.log(data[0]);  
-      if (data === []) {
+      if (data.length == 0) {
         // this.easyQuestionsRemainingCount = 0;
         // this.mediumQuestionsRemainingCount = 0;
         // this.hardQuestionsRemainingCount = 0;
@@ -174,14 +206,14 @@ export class DynamicFormQuestionComponent implements OnInit {
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform"),
       "difficulty": questionCategory,
-      "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
+      "teamUuid": this.teamUuid
     }
 
     // let q = new QuestionBase<string>();
 
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
       // console.log(data);
-      if (data === []) {
+      if (data.length == 0) {
         location.href = "/category";
       }
       if (data.length > 0) {
@@ -207,6 +239,7 @@ export class DynamicFormQuestionComponent implements OnInit {
         this.counter.begin();
         // console.dir(question);
         // this._questionService.loadQuestionData(question);
+        this.lockQuestion();
       }
     })
   }
@@ -217,7 +250,7 @@ export class DynamicFormQuestionComponent implements OnInit {
 
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform"),
-      "teamUuid": this.localStorage.getFromCgwLocalStorage("teamUuid")
+      "teamUuid": this.teamUuid
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/count", params).subscribe(data => {
@@ -286,7 +319,7 @@ export class DynamicFormQuestionComponent implements OnInit {
 
   getTotalScore() {
     let params = {
-      "user_team_uuid": this.localStorage.getFromCgwLocalStorage("teamUuid")      
+      "user_team_uuid": this.teamUuid      
     }
 
     this.http.post<any>(environment.serviceUrl + "/users/totalScore", params).subscribe(data => {
@@ -310,7 +343,7 @@ export class DynamicFormQuestionComponent implements OnInit {
     this.localStorage.storeOnCgwLocalStorage("currentTimeSnapshot", moment().format());    
 
     let params = {
-      "user_team_uuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
+      "user_team_uuid": this.teamUuid,
       "user_time_snapshot": JSON.stringify(this.localStorage.getFromCgwLocalStorage())
     }    
 

@@ -3,17 +3,18 @@
         <ul class="nav col">
             <li class="active">
                 <a href="/">
-                    <img class="siteLogo" src="../assets/images/tm-logo-desktop.png" alt="Trend Micro Cloud Governance Workshop Logo"/>
+                    <img class="siteLogo" src="../assets/images/tm-logo-desktop.png"
+                        alt="Trend Micro Cloud Governance Workshop Logo" />
                 </a>
             </li>
         </ul>
         <div class="displayInline col">
-            <table>
+            <table class="container">
                 <tr class="bolderText titleText">Cloud Governance</tr>
                 <tr class="boldText subTitleText">Workshop Quiz</tr>
             </table>
         </div>
-        <div id="clockdiv-event" class="col displayInline marginTop floatRight" ng-hide="checked">
+        <div id="clockdiv-event" class="col displayInline floatRight" ng-hide="checked">
             <!-- <div class="eventText">Hours</div> -->
             <!-- <div class="eventText">Minutes</div> -->
             <!-- <div class="eventText">Seconds</div> -->
@@ -28,7 +29,8 @@
             <div>
                 <div id="eventSeconds" class="seconds redText">{{ gameClockSeconds }}</div>
             </div> -->
-            <countdown #countdown [config]="gameClockConfig" (event)="timerEvent($event)" class="redText"></countdown>
+            <countdown #countdown [config]="gameClockConfig" (event)="updateLocalStorageTimer($event)" class="redText">
+            </countdown>
         </div>
         <!-- <div class="displayInline margin15 floatRight teamName">
             Team A
@@ -39,13 +41,28 @@
             <span class="siteGradient siteAlert marginRight">NEW</span>
             <span class="marginRight">Click here for Trend Micro Cloud Conformity</span>
             <span class="marginRight">
-                <img src="../../../assets/images/right_arrow_grey.svg"/>
+                <img src="../../../assets/images/right_arrow_grey.svg" />
             </span>
         </a>
     </div>
-    <button class="btn logoutButton" (click)="logOut()">
-        <img src="../assets/images/exit-logout.svg"/>
-    </button>
 </header>
+
+<!-- End Game Modal -->
+<div class="modal fade" id="endGameModal" tabindex="-1" role="dialog" aria-labelledby="endGameModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="endGameModalLabel">Skipping a question?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Please Note:</strong> In real-time there is no option to skip an attack.</p>
+                <p>Continue Skipping?</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <router-outlet></router-outlet>

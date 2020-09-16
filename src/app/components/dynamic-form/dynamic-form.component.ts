@@ -20,6 +20,8 @@ export class DynamicFormComponent implements OnInit {
   form: FormGroup;
   payLoad = '';
 
+  showLogOut = true;
+
   constructor(
     private qcs: QuestionControlService,
     private localStorage: LocalStorageService
@@ -55,6 +57,10 @@ export class DynamicFormComponent implements OnInit {
     // this.payLoad = JSON.stringify(this.form.getRawValue());
     // console.log("Form Submit - " + this.question);
     // console.dir(this.form);
+  }
+
+  logOut() {
+    location.href = "/login";
   }
 
   // loadQuestion(paramQuestion) {

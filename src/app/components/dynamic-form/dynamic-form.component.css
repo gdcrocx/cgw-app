@@ -12,3 +12,19 @@
    background-color: #ddd;
    margin: 1rem;
 }
+
+.logoutButton {
+   position: absolute;
+   max-width: 5rem;
+   max-height: auto;
+   padding: 0.5rem;
+   left: 90%;
+   background-color: #E6E7E9;
+   border-radius: 3rem;
+}
+
+.logoutButton img {
+   max-width: 3.5rem;
+   max-height: auto;
+   padding: 0.5rem;
+}

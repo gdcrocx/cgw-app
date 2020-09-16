@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 
 import { environment } from '../../../environments/environment';
 import { QuestionControlService } from '../question/question-control.service';
@@ -16,6 +17,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 export class QuestionCategoryComponent implements OnInit {
 
   question: QuestionBase<string>;
+  modalRef: BsModalRef;
 
   easyBtn = true;
   mediumBtn = true;
@@ -29,10 +31,13 @@ export class QuestionCategoryComponent implements OnInit {
   mediumQuestionsRemainingCount = 0;
   hardQuestionsRemainingCount = 0;
 
+  showLogOut = true;
+
   constructor(
     private http: HttpClient,
     private _questionService: QuestionControlService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +49,23 @@ export class QuestionCategoryComponent implements OnInit {
     this.checkQuestionsCount();
     this.getTotalQuestionsCount();
     this.updateCurrentTimeSnapshot();
+
+    // this.openModal(template);
+    // this.openModalWithComponent();
   }
+
+  // openModal(template: TemplateRef<any>) {
+  //   this.modalRef = this.modalService.show(template);
+  // }
+
+  openModalWithComponent() {
+    let modalOptions: ModalOptions = {
+      backdrop : 'static',
+      keyboard : false
+    };
+    this.modalRef = this.modalService.show(ModalContentComponent, modalOptions);
+  }
+  
 
   // getNextQuestion(questionCategory) {
 
@@ -178,4 +199,28 @@ export class QuestionCategoryComponent implements OnInit {
     })
   }
 
+  logOut() {
+    location.href = "/login";
+  }
+
+}
+
+/* This is the Modal Component */
+@Component({
+  selector: 'modal-content',
+  template: `
+    <div class="container myModal">
+      <div class="col">
+        <h4 style="text-align: center;">Oops! Time's Up</h4>
+      </div>
+    </div>
+  `,
+  styles: [
+    '.greyText { color: grey; }',
+    '.myModal { border-radius: 3rem; padding: 2rem; }'
+  ]
+})
+ 
+export class ModalContentComponent {
+  constructor(public bsModalRef: BsModalRef) {}
 }

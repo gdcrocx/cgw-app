@@ -14,10 +14,15 @@ export class LocalStorageService {
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) { }
 
-  public storeOnCgwLocalStorage(key: string, value: string): void {    
-    this.timeSnapshotJson = this.getFromCgwLocalStorage();
-    this.timeSnapshotJson[key] = value;
-    this.storage.set(STORAGE_KEY, this.timeSnapshotJson);
+  public storeOnCgwLocalStorage(key?: string, value?: string): void {
+    if (key != 'cgw_storage') {
+      this.timeSnapshotJson = this.getFromCgwLocalStorage();
+      this.timeSnapshotJson[key] = value;
+      this.storage.set(STORAGE_KEY, this.timeSnapshotJson);
+    } else {
+      this.storage.set('cgw_storage', value);
+    }
+    
   }
 
   public getFromCgwLocalStorage(key?: string) {

@@ -61,7 +61,8 @@ export class DynamicFormQuestionComponent implements OnInit {
   questionClockConfig = {
     leftTime: this.questionClockTimeInMinutes,
     format: "mm:ss",
-    demand: false
+    demand: false,
+    notify: 0
   };
 
   constructor(
@@ -211,16 +212,11 @@ export class DynamicFormQuestionComponent implements OnInit {
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
       console.log(data);
       if (data.length == 0) {
-        // location.href = "/category";
+        location.href = "/category";
       }
       if (data.length > 0) {
         this.q_key = data[0]["cgw_aws_q_id"];
         this.q_label = data[0]["cgw_aws_q_text"];
-
-        this.q_allottedTime = data[0]["cgw_aws_q_allottedTime"];
-        this.questionClockTimeInMinutes = parseInt(data[0]["cgw_aws_q_allottedTime"]);
-        this.questionClockConfig.leftTime = this.questionClockTimeInMinutes * 60;
-        this.counter.config.leftTime = this.questionClockTimeInMinutes * 60;
 
         this.q_allottedScore = this.q_currentScore = data[0]["cgw_aws_q_score"];
         this.q_placeholder = "Answer";
@@ -229,11 +225,28 @@ export class DynamicFormQuestionComponent implements OnInit {
         this.q_hint = data[0]["cgw_aws_q_hint"];
         // this.q_order = data[0]["cgw_aws_q_id"];
         this.q_controlType = 'textbox';
+
+        if (this.localStorage.keyExists("question")) {
+          let localQuestionObj = this.localStorage.getFromCgwLocalStorage("question")
+          console.log(localQuestionObj.q_key);
+        }
+        let question: Object = {
+          q_key: data[0]["cgw_aws_q_id"],
+          q_currentTimeTick: data[0]["cgw_aws_q_allottedTime"] * 60
+        }
+        this.localStorage.storeOnCgwLocalStorage("question", JSON.stringify(question));
+        console.log(this.localStorage.getFromCgwLocalStorage("question"));
+        
+        this.questionClockTimeInMinutes = parseInt(data[0]["cgw_aws_q_allottedTime"]);
+        this.questionClockConfig.leftTime = this.questionClockTimeInMinutes * 60;
+        this.counter.config.leftTime = this.questionClockTimeInMinutes * 60;
+
         console.log("Q Clock - " + this.questionClockTimeInMinutes);
         console.log(this.counter.config);
         // console.log(this.questionClockConfig);
         // console.log(this.counter);
         this.counter.begin();
+
         // console.dir(question);
         // this._questionService.loadQuestionData(question);
         this.lockQuestion();

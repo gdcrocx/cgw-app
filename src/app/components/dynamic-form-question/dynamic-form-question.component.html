@@ -15,7 +15,7 @@
       </table>
     </div>
     <div class="col bgGrey marginLeft paddingBottom">
-      <table class="textAlignCenter fullWidth"> {{ questionClockConfig.leftTime }}
+      <table class="textAlignCenter fullWidth">
         <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">
           <countdown #questionCountdown [config]="questionClockConfig" (event)="updateLocalStorageQuestionTimer($event)"></countdown>
         </tr>

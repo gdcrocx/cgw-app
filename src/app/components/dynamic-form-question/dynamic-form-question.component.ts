@@ -1,25 +1,26 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
-import { CountdownComponent } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
 
 import { QuestionBase } from '../question/question-base';
 import { environment } from '../../../environments/environment';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { Subscriber } from 'rxjs';
 
 @Component({
   selector: 'app-dynamic-form-question',
   templateUrl: './dynamic-form-question.component.html',
   styleUrls: ['./dynamic-form-question.component.css']
 })
-export class DynamicFormQuestionComponent implements OnInit {
+export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
   
   @Input() question: QuestionBase<string>;
   @Input() form: FormGroup;
   // get isValid() { return this.form.controls[this.question.key].valid; }
 
-  @ViewChild('countdown', { static: false }) counter: CountdownComponent;
+  @ViewChild('questionCountdown', { static: true }) private questionCounter: CountdownComponent;
   
   showHint: boolean = true;
   showHintText: boolean = false;
@@ -57,11 +58,12 @@ export class DynamicFormQuestionComponent implements OnInit {
   successMessageText = "";
 
   questionClockTimeInMinutes = 0;
+  questionClockTimeInMicroseconds = 0
 
-  questionClockConfig = {
-    leftTime: this.questionClockTimeInMinutes,
+  questionClockConfig: CountdownConfig = {
+    leftTime: this.questionClockTimeInMicroseconds,
     format: "mm:ss",
-    demand: false,
+    demand: true,
     notify: 0
   };
 
@@ -75,12 +77,16 @@ export class DynamicFormQuestionComponent implements OnInit {
   ngOnInit() {
     this.q_diff = this.getQuestionCategory();    
     // console.log(this.q_diff);
-    this.getNextQuestion(this.q_diff);
-    
+    this.getNextQuestion(this.q_diff)
+
     this.checkQuestionsCount();
     this.getTotalQuestionsCount();
     this.getTotalScore();
     this.updateCurrentTimeSnapshot();
+  }
+
+  ngAfterViewInit(): void {
+    this.questionCounter.begin();
   }
 
   toggleHintOn(questionId) {
@@ -131,7 +137,7 @@ export class DynamicFormQuestionComponent implements OnInit {
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/lock", params).subscribe(data => {
-      console.log(data);
+      console.log(data[0]);
       if (data.length == 0) {
         location.href = "/category";
       }
@@ -199,9 +205,9 @@ export class DynamicFormQuestionComponent implements OnInit {
     return this.localStorage.getFromCgwLocalStorage("currentQuestionDiff");
   }
 
-  getNextQuestion(questionCategory) {
+  getNextQuestion(questionCategory): any {
 
-    console.log("Get Next Question...");
+    // console.log("Get Next Question...");
 
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform"),
@@ -210,15 +216,19 @@ export class DynamicFormQuestionComponent implements OnInit {
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
-      console.log(data);
+      // console.log(data[0]);
       if (data.length == 0) {
         location.href = "/category";
       }
       if (data.length > 0) {
+
+        // console.log(this);
+        // console.log(typeof(this));
+
         this.q_key = data[0]["cgw_aws_q_id"];
         this.q_label = data[0]["cgw_aws_q_text"];
-
-        this.q_allottedScore = this.q_currentScore = data[0]["cgw_aws_q_score"];
+        this.q_allottedTime = parseInt(data[0]["cgw_aws_q_allottedTime"]);
+        this.q_allottedScore = this.q_currentScore = parseInt(data[0]["cgw_aws_q_score"]);
         this.q_placeholder = "Answer";
         this.q_required = true;
         this.q_type = data[0]["cgw_aws_q_type"];
@@ -226,33 +236,56 @@ export class DynamicFormQuestionComponent implements OnInit {
         // this.q_order = data[0]["cgw_aws_q_id"];
         this.q_controlType = 'textbox';
 
-        if (this.localStorage.keyExists("question")) {
-          let localQuestionObj = this.localStorage.getFromCgwLocalStorage("question")
-          console.log(localQuestionObj.q_key);
-        }
-        let question: Object = {
-          q_key: data[0]["cgw_aws_q_id"],
-          q_currentTimeTick: data[0]["cgw_aws_q_allottedTime"] * 60
-        }
-        this.localStorage.storeOnCgwLocalStorage("question", JSON.stringify(question));
-        console.log(this.localStorage.getFromCgwLocalStorage("question"));
-        
-        this.questionClockTimeInMinutes = parseInt(data[0]["cgw_aws_q_allottedTime"]);
-        this.questionClockConfig.leftTime = this.questionClockTimeInMinutes * 60;
-        this.counter.config.leftTime = this.questionClockTimeInMinutes * 60;
+        // console.log(this);
+        // console.log(typeof(this));
 
-        console.log("Q Clock - " + this.questionClockTimeInMinutes);
-        console.log(this.counter.config);
-        // console.log(this.questionClockConfig);
-        // console.log(this.counter);
-        this.counter.begin();
-
-        // console.dir(question);
-        // this._questionService.loadQuestionData(question);
         this.lockQuestion();
         this.resetQuestionForm();
+        // console.log("Q Clock - " + this.questionClockTimeInMinutes);
+        // console.log(this.questionCounter.config);
+        // // console.log(this.questionClockConfig);
+        // // console.log(this.questionCounter);
+        return data;
       }
-    })
+    }, (function() {
+      console.log(data);
+      var data = data; // j is a copy of i only available to the scope of the inner function
+      return function() {
+        console.log(data[0]["cgw_aws_q_id"]);
+        // if (this.localStorage.keyExists("Q"+ this.q_key)) {
+        //   console.log("Question Timer Tick found.");
+        //   let localQuestionObj = JSON.parse(this.localStorage.getFromCgwLocalStorage("Q"+ this.q_key))
+        //   console.log(localQuestionObj);
+        //   this.questionClockTimeInMicroseconds = localQuestionObj["q_currentTimeTick"];
+        //   console.log("Microseconds - " + this.questionClockTimeInMicroseconds);
+
+        //   this.questionClockConfig.leftTime = this.questionClockTimeInMicroseconds;
+        //   // this.questionCounter.config.leftTime = this.questionClockTimeInMicroseconds;
+        //   // this.questionCounter.left = this.questionClockTimeInMicroseconds;
+        // } else {
+        //   console.log("No Question Timer Tick found.");
+        //   this.questionClockTimeInMinutes = this.q_allottedTime;
+        //   console.log(this.q_allottedTime);
+        //   this.questionClockConfig.leftTime = this.questionClockTimeInMinutes * 60; // Conversion to seconds, for leftTime uses seconds as its unit of time
+        //   // this.questionCounter.config.leftTime = this.questionClockTimeInMinutes * 60; ;
+        //   // this.questionCounter.left = this.questionClockTimeInMinutes * 60; ;
+
+        //   let question: Object = {
+        //     q_key: this.q_key,
+        //     q_currentTimeTick: this.q_allottedTime * 60 * 1000
+        //   }
+        //   this.localStorage.storeOnCgwLocalStorage("Q"+ this.q_key, JSON.stringify(question));
+        //   console.log("Get from storage - " + this.localStorage.getFromCgwLocalStorage("Q"+ this.q_key));
+        // }
+      }
+    })());
+
+    // API.doSthWithCallbacks( (function() {
+    //   var j = i; // j is a copy of i only available to the scope of the inner function
+    //   return function() {
+    //     array[j].something = 42;
+    //   }
+    // })() );
   }
 
   checkQuestionsCount() {
@@ -368,8 +401,24 @@ export class DynamicFormQuestionComponent implements OnInit {
     })
   }
 
-  timerEvent(event) {
-    console.log(event);
+  updateLocalStorageQuestionTimer(event) {
+    // console.log(event);
+    if (event.left !== NaN) {
+      this.localStorage.storeOnCgwLocalStorage("currentQuestionTimerTick", event.left);
+      if (this.localStorage.keyExists("Q" + this.q_key)) {
+        // console.log("Question: - " + this.localStorage.getFromCgwLocalStorage("Q" + this.q_key));
+        let localQuestionObj = JSON.parse(this.localStorage.getFromCgwLocalStorage("Q" + this.q_key));
+        // console.log(JSON.stringify(localQuestionObj));
+        localQuestionObj["q_currentTimeTick"] = event.left;
+        this.localStorage.storeOnCgwLocalStorage("Q" + this.q_key, JSON.stringify(localQuestionObj));
+      }
+    } else {
+      let question: Object = {
+        q_key: this.q_key,
+        q_currentTimeTick: this.q_allottedTime
+      }
+      this.localStorage.storeOnCgwLocalStorage("Q"+ this.q_key, JSON.stringify(question));
+    }
   }
     
 }

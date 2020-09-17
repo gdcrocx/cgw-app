@@ -29,8 +29,7 @@
             <div>
                 <div id="eventSeconds" class="seconds redText">{{ gameClockSeconds }}</div>
             </div> -->
-            <countdown #countdown [config]="gameClockConfig" (event)="updateLocalStorageTimer($event)" class="redText">
-            </countdown>
+            <countdown #gameCountdown [config]="gameClockConfig" (event)="updateLocalStorageGameTimer($event)" class="redText"></countdown>
         </div>
         <!-- <div class="displayInline margin15 floatRight teamName">
             Team A

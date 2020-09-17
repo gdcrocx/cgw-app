@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CountdownComponent } from 'ngx-countdown';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
 
 import { environment } from '../environments/environment';
 import { LocalStorageService } from './services/local-storage.service';
@@ -9,21 +9,19 @@ import { LocalStorageService } from './services/local-storage.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'cgw-app';
   showConformityLink = environment.showConformityLink;
 
-  @ViewChild('countdown', { static: false }) private counter: CountdownComponent;
-
-  endGame = true;
+  @ViewChild('gameCountdown', { static: true }) private gameCounter: CountdownComponent;
 
   gameClockTimeInMinutes = 0;
   gameClockTimeInMicroseconds = 0;
 
-  gameClockConfig = {
+  gameClockConfig: CountdownConfig = {
     leftTime: this.gameClockTimeInMicroseconds,
-    format: "h:mm:ss",
-    demand: false,
+    // format: "h:mm:ss",
+    demand: true,
     notify: 0
   };
 
@@ -32,35 +30,34 @@ export class AppComponent implements OnInit {
   ){}
 
   ngOnInit() {
-    this.counter.stop();
-    console.log(location.pathname);
-    // if (location.pathname in ["/category", "/quiz"]) {
-      if (this.localStorage.keyExists("currentGameTimerTick")) {
-        console.log("Game Timer Tick found.");
-        this.gameClockTimeInMicroseconds = parseInt(this.localStorage.getFromCgwLocalStorage("currentGameTimerTick"))/1000;
-        console.log("TimeOnLocalStorage - " + this.localStorage.getFromCgwLocalStorage("currentGameTimerTick"));
-        this.gameClockConfig.leftTime = this.gameClockTimeInMicroseconds
-      } else {
-        console.log("No Game Timer Tick found.");
-        this.gameClockTimeInMinutes = parseInt(this.localStorage.getFromCgwLocalStorage("totalTimeInMinutes"));
-        this.gameClockConfig.leftTime = this.gameClockTimeInMinutes * 60; // Conversion to seconds, for leftTime uses seconds as its unit of time
-        // console.log(this.counter.config);
-        // this.setGameClockTimer(this.gameClockTimeInMinutes);
-      }
-    // }
+    if (this.localStorage.keyExists("currentGameTimerTick")) {
+      console.log("Game Timer Tick found.");
+      this.gameClockTimeInMicroseconds = parseInt(this.localStorage.getFromCgwLocalStorage("currentGameTimerTick"))/1000;
+      console.log("TimeOnLocalStorage - " + this.localStorage.getFromCgwLocalStorage("currentGameTimerTick"));
+      this.gameClockConfig.leftTime = this.gameClockTimeInMicroseconds;
+    } else {
+      console.log("No Game Timer Tick found.");
+      this.gameClockTimeInMinutes = parseInt(this.localStorage.getFromCgwLocalStorage("totalTimeInMinutes"));
+      this.gameClockConfig.leftTime = this.gameClockTimeInMinutes * 60; // Conversion to seconds, for leftTime uses seconds as its unit of time
+    }
   }
 
-  // setGameClockTimer(mins?) {
-  //   this.gameClockHours = Math.floor(mins/60).toString();
-  //   this.gameClockMinutes = (mins%60).toString();
-  //   this.gameClockSeconds = "00";
-  // }
+  ngAfterViewInit(): void {
+    this.gameCounter.begin();
+  }
 
-  updateLocalStorageTimer(event) {
-    console.log(event.left);
-    this.localStorage.storeOnCgwLocalStorage("currentGameTimerTick", event.left);
-    // if (event.left == 0) {
-    //   this.endGame = true;
+  updateLocalStorageGameTimer(event) {
+    // console.log(event);
+    if (event.left !== NaN) {
+      this.localStorage.storeOnCgwLocalStorage("currentGameTimerTick", event.left);
+    }
+    if (location.pathname == "/category" || location.pathname == "/quiz") {
+      this.gameCounter.resume();
+    } else {
+      this.gameCounter.pause();
+    }
+    // if (this.localStorage.getFromCgwLocalStorage("currentGameTimerTick") == 0) {
+    //   location.href = "/category"
     // }
   }
 }

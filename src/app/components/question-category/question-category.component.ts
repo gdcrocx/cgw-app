@@ -50,8 +50,7 @@ export class QuestionCategoryComponent implements OnInit {
     this.getTotalQuestionsCount();
     this.updateCurrentTimeSnapshot();
 
-    // this.openModal(template);
-    // this.openModalWithComponent();
+    // this.checkForEndGame();
   }
 
   // openModal(template: TemplateRef<any>) {
@@ -107,7 +106,7 @@ export class QuestionCategoryComponent implements OnInit {
 
   checkQuestionsCount() {
 
-    console.log("Getting All Questions...");
+    // console.log("Getting All Questions...");
 
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform"),
@@ -154,7 +153,7 @@ export class QuestionCategoryComponent implements OnInit {
 
   getTotalQuestionsCount() {
 
-    console.log("Getting All Questions Count...");
+    // console.log("Getting All Questions Count...");
 
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform")      
@@ -198,6 +197,14 @@ export class QuestionCategoryComponent implements OnInit {
       }
     })
   }
+
+  // checkForEndGame() {
+  //   if (this.localStorage.keyExists("currentGameTimerTick")) {
+  //     if (this.localStorage.getFromCgwLocalStorage("currentGameTimerTick") == 0) {
+  //       this.openModalWithComponent();
+  //     }
+  //   }
+  // }
 
   logOut() {
     location.href = "/login";

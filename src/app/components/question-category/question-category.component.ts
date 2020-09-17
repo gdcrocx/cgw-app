@@ -207,6 +207,7 @@ export class QuestionCategoryComponent implements OnInit {
   // }
 
   logOut() {
+    this.updateCurrentTimeSnapshot();
     location.href = "/login";
   }
 

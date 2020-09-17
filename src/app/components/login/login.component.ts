@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.localStorage.deleteCgwLocalStorage();
     console.log(moment().format());
+    this.getCurrentTimeSnapshot(this.teamName);
   }
 
   login() {

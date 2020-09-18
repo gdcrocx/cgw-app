@@ -195,7 +195,7 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/checkAnswer", params).subscribe(data => {
-      console.log(data[0]);  
+      // console.log(data[0]);  
       if (data.length == 0) {
         // this.easyQuestionsRemainingCount = 0;
         // this.mediumQuestionsRemainingCount = 0;
@@ -239,7 +239,7 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
       console.log(data);
       if (data.length == 0) {        
-        // location.href = "/category";
+        location.href = "/category";
       }
       if (data.length > 0) {
 

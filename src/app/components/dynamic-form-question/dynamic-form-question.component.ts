@@ -262,6 +262,11 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
 
         // this.lockQuestion();
         this.resetQuestionForm();
+        this.checkQuestionsCount();
+        this.getTotalQuestionsCount();
+        this.getTotalScore();
+        this.updateCurrentTimeSnapshot();
+        
         // console.log("Q Clock - " + this.questionClockTimeInMinutes);
         // console.log(this.questionCounter.config);
         // // console.log(this.questionClockConfig);
@@ -319,8 +324,8 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
       "teamUuid": this.teamUuid
     }
 
-    this.http.post<any>(environment.serviceUrl + "/question/count", params).subscribe(data => {
-      // console.log(data);
+    this.http.post<any>(environment.serviceUrl + "/question/count", params).subscribe(data => {      
+      // console.dir(data);
       // data = [
       //   {
       //     cgw_aws_q_diff: "easy",

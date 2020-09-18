@@ -25,7 +25,7 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
   showHint: boolean = true;
   showHintText: boolean = false;
   showSkip: boolean = false;  
-  showNextQuestion: boolean = false;
+  showNextQuestion: boolean = true;
 
   teamUuid = "";
   userAnswer = "";
@@ -103,24 +103,21 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
   }
 
   skipQuestion() {
-    this.unlockQuestion();
-    location.href = "/category";
-  }
-
-  unlockQuestion() {
+    // this.unlockQuestion();
+    // location.href = "/category";
     let params = {
-      "questionId": this.q_key,
-      "teamUuid": this.teamUuid
-    }
+      questionId: this.q_key,
+      teamUuid: this.localStorage.getFromCgwLocalStorage("teamUuid")
+    }    
 
-    this.http.put<any>(environment.serviceUrl + "/question/unlock", params).subscribe(data => {
-      console.log(data);
+    this.http.post<any>(environment.serviceUrl + "/question/skip", params).subscribe(data => {
+      // console.log(data[0]);
       if (data.length == 0) {
         location.href = "/category";
       }
       if (data.length > 0) {        
-        if ('cgw_q_lock_status' in data[0]) {
-          if (data[0].cgw_q_lock_status == 0) {
+        if ('cgw_q_skip_status' in data[0]) {
+          if (data[0].cgw_q_skip_status == 1) {
             this.getNextQuestion(this.q_diff);
           } else {
             console.log("Error 444: Could not unlock question.")
@@ -128,30 +125,54 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
         }
       }
     })
+    this.getNextQuestion(this.localStorage.getFromCgwLocalStorage("teamUuid"));
   }
 
-  lockQuestion() {
-    let params = {
-      "questionId": this.q_key,
-      "teamUuid": this.teamUuid
-    }
+  // unlockQuestion() {
+  //   let params = {
+  //     "questionId": this.q_key,
+  //     "teamUuid": this.teamUuid
+  //   }
 
-    this.http.post<any>(environment.serviceUrl + "/question/lock", params).subscribe(data => {
-      console.log(data[0]);
-      if (data.length == 0) {
-        location.href = "/category";
-      }
-      if (data.length > 0) {        
-        if ('cgw_q_lock_status' in data[0]) {
-          if (data[0].cgw_q_lock_status == 1) {
-            console.log("Success: Question Locked.");
-          } else {
-            console.log("Error 444: Could not unlock question.");
-          }
-        }
-      }
-    })
-  }
+  //   this.http.put<any>(environment.serviceUrl + "/question/unlock", params).subscribe(data => {
+  //     console.log(data);
+  //     if (data.length == 0) {
+  //       location.href = "/category";
+  //     }
+  //     if (data.length > 0) {        
+  //       if ('cgw_q_lock_status' in data[0]) {
+  //         if (data[0].cgw_q_lock_status == 0) {
+  //           this.getNextQuestion(this.q_diff);
+  //         } else {
+  //           console.log("Error 444: Could not unlock question.")
+  //         }
+  //       }
+  //     }
+  //   })
+  // }
+
+  // lockQuestion() {
+  //   let params = {
+  //     "questionId": this.q_key,
+  //     "teamUuid": this.teamUuid
+  //   }
+
+  //   this.http.post<any>(environment.serviceUrl + "/question/lock", params).subscribe(data => {
+  //     console.log(data[0]);
+  //     if (data.length == 0) {
+  //       location.href = "/category";
+  //     }
+  //     if (data.length > 0) {        
+  //       if ('cgw_q_lock_status' in data[0]) {
+  //         if (data[0].cgw_q_lock_status == 1) {
+  //           console.log("Success: Question Locked.");
+  //         } else {
+  //           console.log("Error 444: Could not unlock question.");
+  //         }
+  //       }
+  //     }
+  //   })
+  // }
 
   nextQuestion() {
     location.href = '/category';
@@ -216,9 +237,9 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
-      // console.log(data[0]);
-      if (data.length == 0) {
-        location.href = "/category";
+      console.log(data);
+      if (data.length == 0) {        
+        // location.href = "/category";
       }
       if (data.length > 0) {
 
@@ -239,7 +260,7 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
         // console.log(this);
         // console.log(typeof(this));
 
-        this.lockQuestion();
+        // this.lockQuestion();
         this.resetQuestionForm();
         // console.log("Q Clock - " + this.questionClockTimeInMinutes);
         // console.log(this.questionCounter.config);
@@ -247,38 +268,39 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
         // // console.log(this.questionCounter);
         return data;
       }
-    }, (function() {
-      console.log(data);
-      var data = data; // j is a copy of i only available to the scope of the inner function
-      return function() {
-        console.log(data[0]["cgw_aws_q_id"]);
-        // if (this.localStorage.keyExists("Q"+ this.q_key)) {
-        //   console.log("Question Timer Tick found.");
-        //   let localQuestionObj = JSON.parse(this.localStorage.getFromCgwLocalStorage("Q"+ this.q_key))
-        //   console.log(localQuestionObj);
-        //   this.questionClockTimeInMicroseconds = localQuestionObj["q_currentTimeTick"];
-        //   console.log("Microseconds - " + this.questionClockTimeInMicroseconds);
+    });
+    // , (function() {
+    //   console.log(data);
+    //   var data = data; // j is a copy of i only available to the scope of the inner function
+    //   return function() {
+    //     console.log(data[0]["cgw_aws_q_id"]);
+    //     // if (this.localStorage.keyExists("Q"+ this.q_key)) {
+    //     //   console.log("Question Timer Tick found.");
+    //     //   let localQuestionObj = JSON.parse(this.localStorage.getFromCgwLocalStorage("Q"+ this.q_key))
+    //     //   console.log(localQuestionObj);
+    //     //   this.questionClockTimeInMicroseconds = localQuestionObj["q_currentTimeTick"];
+    //     //   console.log("Microseconds - " + this.questionClockTimeInMicroseconds);
 
-        //   this.questionClockConfig.leftTime = this.questionClockTimeInMicroseconds;
-        //   // this.questionCounter.config.leftTime = this.questionClockTimeInMicroseconds;
-        //   // this.questionCounter.left = this.questionClockTimeInMicroseconds;
-        // } else {
-        //   console.log("No Question Timer Tick found.");
-        //   this.questionClockTimeInMinutes = this.q_allottedTime;
-        //   console.log(this.q_allottedTime);
-        //   this.questionClockConfig.leftTime = this.questionClockTimeInMinutes * 60; // Conversion to seconds, for leftTime uses seconds as its unit of time
-        //   // this.questionCounter.config.leftTime = this.questionClockTimeInMinutes * 60; ;
-        //   // this.questionCounter.left = this.questionClockTimeInMinutes * 60; ;
+    //     //   this.questionClockConfig.leftTime = this.questionClockTimeInMicroseconds;
+    //     //   // this.questionCounter.config.leftTime = this.questionClockTimeInMicroseconds;
+    //     //   // this.questionCounter.left = this.questionClockTimeInMicroseconds;
+    //     // } else {
+    //     //   console.log("No Question Timer Tick found.");
+    //     //   this.questionClockTimeInMinutes = this.q_allottedTime;
+    //     //   console.log(this.q_allottedTime);
+    //     //   this.questionClockConfig.leftTime = this.questionClockTimeInMinutes * 60; // Conversion to seconds, for leftTime uses seconds as its unit of time
+    //     //   // this.questionCounter.config.leftTime = this.questionClockTimeInMinutes * 60; ;
+    //     //   // this.questionCounter.left = this.questionClockTimeInMinutes * 60; ;
 
-        //   let question: Object = {
-        //     q_key: this.q_key,
-        //     q_currentTimeTick: this.q_allottedTime * 60 * 1000
-        //   }
-        //   this.localStorage.storeOnCgwLocalStorage("Q"+ this.q_key, JSON.stringify(question));
-        //   console.log("Get from storage - " + this.localStorage.getFromCgwLocalStorage("Q"+ this.q_key));
-        // }
-      }
-    })());
+    //     //   let question: Object = {
+    //     //     q_key: this.q_key,
+    //     //     q_currentTimeTick: this.q_allottedTime * 60 * 1000
+    //     //   }
+    //     //   this.localStorage.storeOnCgwLocalStorage("Q"+ this.q_key, JSON.stringify(question));
+    //     //   console.log("Get from storage - " + this.localStorage.getFromCgwLocalStorage("Q"+ this.q_key));
+    //     // }
+    //   }
+    // })());
 
     // API.doSthWithCallbacks( (function() {
     //   var j = i; // j is a copy of i only available to the scope of the inner function
@@ -379,7 +401,7 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
   resetQuestionForm() {
     this.showHint = true;
     this.showHintText = false;
-    this.showNextQuestion = false;
+    // this.showNextQuestion = false;
     this.userAnswer = "";
   }
 

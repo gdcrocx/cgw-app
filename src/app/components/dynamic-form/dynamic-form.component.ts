@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { QuestionBase } from '../question/question-base';
 import { QuestionControlService } from '../question/question-control.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -27,7 +28,8 @@ export class DynamicFormComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private qcs: QuestionControlService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private app: AppComponent
   ) { 
     //   // console.log("In Constructor - DynFormComp - " + this.question);
     //   // console.log("QCS - ");
@@ -63,7 +65,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   updateCurrentTimeSnapshot() {
-    this.localStorage.storeOnCgwLocalStorage("currentTimeSnapshot", moment().format());    
+    this.localStorage.storeOnCgwLocalStorage("currentTimeSnapshot", moment().format());
 
     let params = {
       "user_team_uuid": this.localStorage.getFromCgwLocalStorage("teamUuid"),
@@ -81,6 +83,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   logOut() {
+    this.app.gameCounter.stop();
     this.updateCurrentTimeSnapshot();
     location.href = "/login";
   }

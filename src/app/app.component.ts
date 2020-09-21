@@ -13,7 +13,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   title = 'cgw-app';
   showConformityLink = environment.showConformityLink;
 
-  @ViewChild('gameCountdown', { static: true }) private gameCounter: CountdownComponent;
+  @ViewChild('gameCountdown', { static: true }) public gameCounter: CountdownComponent;
 
   gameClockTimeInMinutes = 0;
   gameClockTimeInMicroseconds = 0;

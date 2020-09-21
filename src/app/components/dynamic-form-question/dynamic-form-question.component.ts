@@ -51,6 +51,7 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
   q_hint = "";
   // q_order = "";
   q_controlType = "";
+  q_resource_tag = "";
 
   errorMessage = "";
   errorMessageText = "";  
@@ -188,37 +189,65 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
 
     let params = {
       "platform": this.localStorage.getFromCgwLocalStorage("platform"),
-      "cgw_aws_q_id": this.q_key,
+      "cgw_q_id": this.q_key,
       "teamUuid": this.teamUuid,
       "user_answer": this.userAnswer,
       "cgw_q_score": this.q_currentScore
     }
 
-    this.http.post<any>(environment.serviceUrl + "/question/checkAnswer", params).subscribe(data => {
-      // console.log(data[0]);  
-      if (data.length == 0) {
-        // this.easyQuestionsRemainingCount = 0;
-        // this.mediumQuestionsRemainingCount = 0;
-        // this.hardQuestionsRemainingCount = 0;
-        location.href = "/category";
-      }
-      // console.log(params);
-      if (data.length > 0) {        
-        if ('response' in data[0]) {
-          if (data[0].response == 1) {
-            this.showHint = false;
-            this.showSkip = false;
-            this.showNextQuestion = true;
-            this.successMessage = "Congratulations!";
-            this.successMessageText = " You are one step closer to a safer and secure environment";
-            this.getNextQuestion(this.q_diff);
-          } else {
-            this.errorMessage = "Incorrect!";
-            this.errorMessageText = " Try again.";
+    if (this.q_resource_tag != "") {
+      this.http.post<any>(environment.serviceUrl + "/question/checkCspResourceAnswer", params).subscribe(data => {
+        // console.log(data[0]);  
+        if (data.length == 0) {
+          // this.easyQuestionsRemainingCount = 0;
+          // this.mediumQuestionsRemainingCount = 0;
+          // this.hardQuestionsRemainingCount = 0;
+          location.href = "/category";
+        }
+        // console.log(params);
+        if (data.length > 0) {        
+          if ('response' in data[0]) {
+            if (data[0].response == 1) {
+              this.showHint = false;
+              this.showSkip = false;
+              this.showNextQuestion = true;
+              this.successMessage = "Congratulations!";
+              this.successMessageText = " You are one step closer to a safer and secure environment";
+              this.getNextQuestion(this.q_diff);
+            } else {
+              this.errorMessage = "Incorrect!";
+              this.errorMessageText = " Try again.";
+            }
           }
         }
-      }
-    })   
+      })   
+    } else {
+      this.http.post<any>(environment.serviceUrl + "/question/checkAnswer", params).subscribe(data => {
+        // console.log(data[0]);  
+        if (data.length == 0) {
+          // this.easyQuestionsRemainingCount = 0;
+          // this.mediumQuestionsRemainingCount = 0;
+          // this.hardQuestionsRemainingCount = 0;
+          location.href = "/category";
+        }
+        // console.log(params);
+        if (data.length > 0) {        
+          if ('response' in data[0]) {
+            if (data[0].response == 1) {
+              this.showHint = false;
+              this.showSkip = false;
+              this.showNextQuestion = true;
+              this.successMessage = "Congratulations!";
+              this.successMessageText = " You are one step closer to a safer and secure environment";
+              this.getNextQuestion(this.q_diff);
+            } else {
+              this.errorMessage = "Incorrect!";
+              this.errorMessageText = " Try again.";
+            }
+          }
+        }
+      })   
+    }
     // location.href = '/category'; 
   }
 
@@ -237,25 +266,28 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
     }
 
     this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
-      console.log(data);
-      if (data.length == 0) {        
-        location.href = "/category";
+      console.log("Next Question - ");
+      console.dir(data);
+      if (data.length == 0) {    
+        console.log("Data returned [] (empty)");
+        // location.href = "/category";
       }
       if (data.length > 0) {
 
         // console.log(this);
         // console.log(typeof(this));
 
-        this.q_key = data[0]["cgw_aws_q_id"];
-        this.q_label = data[0]["cgw_aws_q_text"];
-        this.q_allottedTime = parseInt(data[0]["cgw_aws_q_allottedTime"]);
-        this.q_allottedScore = this.q_currentScore = parseInt(data[0]["cgw_aws_q_score"]);
+        this.q_key = data[0]["cgw_q_id"];
+        this.q_label = data[0]["cgw_q_text"];
+        this.q_allottedTime = parseInt(data[0]["cgw_q_allottedTime"]);
+        this.q_allottedScore = this.q_currentScore = parseInt(data[0]["cgw_q_score"]);
         this.q_placeholder = "Answer";
         this.q_required = true;
-        this.q_type = data[0]["cgw_aws_q_type"];
-        this.q_hint = data[0]["cgw_aws_q_hint"];
-        // this.q_order = data[0]["cgw_aws_q_id"];
+        this.q_type = data[0]["cgw_q_type"];
+        this.q_hint = data[0]["cgw_q_hint"];
+        // this.q_order = data[0]["cgw_q_id"];
         this.q_controlType = 'textbox';
+        this.q_resource_tag = data[0]["cgw_resource_tag"];
 
         // console.log(this);
         // console.log(typeof(this));
@@ -278,7 +310,7 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
     //   console.log(data);
     //   var data = data; // j is a copy of i only available to the scope of the inner function
     //   return function() {
-    //     console.log(data[0]["cgw_aws_q_id"]);
+    //     console.log(data[0]["cgw_q_id"]);
     //     // if (this.localStorage.keyExists("Q"+ this.q_key)) {
     //     //   console.log("Question Timer Tick found.");
     //     //   let localQuestionObj = JSON.parse(this.localStorage.getFromCgwLocalStorage("Q"+ this.q_key))
@@ -328,29 +360,29 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
       // console.dir(data);
       // data = [
       //   {
-      //     cgw_aws_q_diff: "easy",
+      //     cgw_q_diff: "easy",
       //     count: 0
       //   },
       //   {
-      //     cgw_aws_q_diff: "medium",
+      //     cgw_q_diff: "medium",
       //     count: 9
       //   },
       //   {
-      //     cgw_aws_q_diff: "hard",
+      //     cgw_q_diff: "hard",
       //     count: 1
       //   }
       // ]
       if (data.length > 0) {
         data.forEach(item => {
-          if (item.cgw_aws_q_diff == "easy") {
+          if (item.cgw_q_diff == "easy") {
             if (item.count > 0)              
               this.easyQuestionsRemainingCount = item.count;
           }
-          else if (item.cgw_aws_q_diff == "medium") {
+          else if (item.cgw_q_diff == "medium") {
             if (item.count > 0)
               this.mediumQuestionsRemainingCount = item.count;
           }
-          else if (item.cgw_aws_q_diff == "hard") {
+          else if (item.cgw_q_diff == "hard") {
             if (item.count > 0)
               this.hardQuestionsRemainingCount = item.count;
           }
@@ -371,15 +403,15 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
       // console.log(data);      
       if (data.length > 0) {
         data.forEach(item => {
-          if (item.cgw_aws_q_diff == "easy") {
+          if (item.cgw_q_diff == "easy") {
             if (item.count > 0)              
               this.easyQuestionsTotalCount = item.count;
           }
-          else if (item.cgw_aws_q_diff == "medium") {
+          else if (item.cgw_q_diff == "medium") {
             if (item.count > 0)              
               this.mediumQuestionsTotalCount = item.count;
           }
-          else if (item.cgw_aws_q_diff == "hard") {
+          else if (item.cgw_q_diff == "hard") {
             if (item.count > 0)              
               this.hardQuestionsTotalCount = item.count;
           }

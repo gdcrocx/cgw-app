@@ -79,35 +79,35 @@ export class QuestionService implements OnInit {
 
   //   this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
   //     // console.log(data[0]);
-  //     question.key = data[0]["cgw_aws_q_id"];
-  //     question.label = data[0]["cgw_aws_q_text"],
+  //     question.key = data[0]["cgw_q_id"];
+  //     question.label = data[0]["cgw_q_text"],
   //     question.value = "Answer",
   //     question.required = true,
-  //     question.type = data[0]["cgw_aws_q_type"],
-  //     question.hint = data[0]["cgw_aws_q_hint"],
-  //     question.order = data[0]["cgw_aws_q_id"]
+  //     question.type = data[0]["cgw_q_type"],
+  //     question.hint = data[0]["cgw_q_hint"],
+  //     question.order = data[0]["cgw_q_id"]
   //     question.controlType = 'textbox'
   //         // console.log("Items - " + item);
   //         // console.dir(item);
-  //         // console.log("Item - " + item["cgw_aws_q_id"])
-  //         // if (item["cgw_aws_q_type"] === "text") {
+  //         // console.log("Item - " + item["cgw_q_id"])
+  //         // if (item["cgw_q_type"] === "text") {
   //         // question.push(
   //         //   new TextboxQuestion({
-  //         //     key: data["cgw_aws_q_id"],
-  //         //     label: data["cgw_aws_q_text"],
+  //         //     key: data["cgw_q_id"],
+  //         //     label: data["cgw_q_text"],
   //         //     value: "Answer",
   //         //     required: true,
-  //         //     type: data["cgw_aws_q_type"],
-  //         //     hint: data["cgw_aws_q_hint"],
-  //         //     order: data["cgw_aws_q_id"]
+  //         //     type: data["cgw_q_type"],
+  //         //     hint: data["cgw_q_hint"],
+  //         //     order: data["cgw_q_id"]
   //         //   })
   //         // )      
   //   })
   // // console.dir(response);
   // // console.log(response);
   // //       // {
-  // //       //   key : "cgw_aws_q_id",
-  // //       //   label : "cgw_aws_q_text",
+  // //       //   key : "cgw_q_id",
+  // //       //   label : "cgw_q_text",
   // //       //   value : "",
   // //       //   required : true,
   // //       //   order : 1,

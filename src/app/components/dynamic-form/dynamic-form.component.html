@@ -1,23 +1,28 @@
-<button *ngIf="showLogOut" class="btn logoutButton" (click)="logOut()">
-  <img src="../assets/images/exit-logout.svg"/>
-</button>
-<div class="paddingQuestion">
+<div class="row">
+  <button *ngIf="showLogOut" class="btn logoutButton" (click)="logOut()">
+    <img src="../assets/images/exit-logout.svg"/>
+  </button>
+  <div class="paddingQuestion">
 
-    <!-- <div *ngFor="let question of questions" class="form-row"> -->
+      <!-- <div *ngFor="let question of questions" class="form-row"> -->
 
-      <form (ngSubmit)="onSubmit()"> <!-- [formGroup]="form" -->
+        <form (ngSubmit)="onSubmit()"> <!-- [formGroup]="form" -->
 
-        <app-dynamic-form-question></app-dynamic-form-question> <!-- [question]="question" [form]="form" -->
-        <!-- <div class="form-row">
-          <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Check Answer</button>
-        </div> -->
+          <app-dynamic-form-question></app-dynamic-form-question> <!-- [question]="question" [form]="form" -->
+          <!-- <div class="form-row">
+            <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Check Answer</button>
+          </div> -->
 
-      </form>
+        </form>
 
-    <!-- </div> -->
-  
-    <!-- <div *ngIf="payLoad" class="form-row">
-      <strong>Saved the following values</strong><br>{{payLoad}}
-    </div> -->
+      <!-- </div> -->
+    
+      <!-- <div *ngIf="payLoad" class="form-row">
+        <strong>Saved the following values</strong><br>{{payLoad}}
+      </div> -->
+  </div>
 </div>
-
+<div class="container">
+  <div class="footerText">Disclaimer:</div>
+  <span class="footerSubText">For all answers please make sure to copy all information straight from the console versus shortening or elongating them. Also please make sure to put full form of words, numbers for answers and some common words in the answers (use proper tense) are: open, enable, expose, restrict, remove, unused. If you believe you have the correct answer and its not being accepted, please call one of the admins to confirm for you.</span>
+</div>

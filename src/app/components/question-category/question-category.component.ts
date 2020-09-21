@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { QuestionControlService } from '../question/question-control.service';
 import { QuestionBase } from '../question/question-base';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-question-category',
@@ -37,7 +38,8 @@ export class QuestionCategoryComponent implements OnInit {
     private http: HttpClient,
     private _questionService: QuestionControlService,
     private localStorage: LocalStorageService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private app: AppComponent
   ) { }
 
   ngOnInit(): void {
@@ -81,13 +83,13 @@ export class QuestionCategoryComponent implements OnInit {
   //   this.http.post<any>(environment.serviceUrl + "/question/next", params).subscribe(data => {
   //     console.log(data);
   //     if (data.length > 0) {
-  //       question.key = data[0]["cgw_aws_q_id"];
-  //       question.label = data[0]["cgw_aws_q_text"];
+  //       question.key = data[0]["cgw_q_id"];
+  //       question.label = data[0]["cgw_q_text"];
   //       question.value = "Answer";
   //       question.required = true;
-  //       question.type = data[0]["cgw_aws_q_type"];
-  //       question.hint = data[0]["cgw_aws_q_hint"];
-  //       question.order = data[0]["cgw_aws_q_id"];
+  //       question.type = data[0]["cgw_q_type"];
+  //       question.hint = data[0]["cgw_q_hint"];
+  //       question.order = data[0]["cgw_q_id"];
   //       question.controlType = 'textbox';
   //       // console.dir(question);
   //       // this._questionService.loadQuestionData(question);
@@ -117,31 +119,31 @@ export class QuestionCategoryComponent implements OnInit {
       // console.log(data);
       // data = [
       //   {
-      //     cgw_aws_q_diff: "easy",
+      //     cgw_q_diff: "easy",
       //     count: 0
       //   },
       //   {
-      //     cgw_aws_q_diff: "medium",
+      //     cgw_q_diff: "medium",
       //     count: 9
       //   },
       //   {
-      //     cgw_aws_q_diff: "hard",
+      //     cgw_q_diff: "hard",
       //     count: 1
       //   }
       // ]
       if (data.length > 0) {
         data.forEach(item => {
-          if (item.cgw_aws_q_diff == "easy") {
+          if (item.cgw_q_diff == "easy") {
             if (item.count > 0)
               this.easyBtn = false;
               this.easyQuestionsRemainingCount = item.count;
           }
-          else if (item.cgw_aws_q_diff == "medium") {
+          else if (item.cgw_q_diff == "medium") {
             if (item.count > 0)
               this.mediumBtn = false;
               this.mediumQuestionsRemainingCount = item.count;
           }
-          else if (item.cgw_aws_q_diff == "hard") {
+          else if (item.cgw_q_diff == "hard") {
             if (item.count > 0)
               this.hardBtn = false;
               this.hardQuestionsRemainingCount = item.count;
@@ -163,15 +165,15 @@ export class QuestionCategoryComponent implements OnInit {
       // console.log(data);      
       if (data.length > 0) {
         data.forEach(item => {
-          if (item.cgw_aws_q_diff == "easy") {
+          if (item.cgw_q_diff == "easy") {
             if (item.count > 0)              
               this.easyTotalQuestionsCount = item.count;
           }
-          else if (item.cgw_aws_q_diff == "medium") {
+          else if (item.cgw_q_diff == "medium") {
             if (item.count > 0)              
               this.mediumTotalQuestionsCount = item.count;
           }
-          else if (item.cgw_aws_q_diff == "hard") {
+          else if (item.cgw_q_diff == "hard") {
             if (item.count > 0)              
               this.hardTotalQuestionsCount = item.count;
           }
@@ -207,6 +209,7 @@ export class QuestionCategoryComponent implements OnInit {
   // }
 
   logOut() {
+    this.app.gameCounter.stop();
     this.updateCurrentTimeSnapshot();
     location.href = "/login";
   }

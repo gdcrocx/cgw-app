@@ -28,3 +28,14 @@
    max-height: auto;
    padding: 0.5rem;
 }
+
+.footerText {
+   font-size: 1.05rem;
+   font-weight: bold;
+   color: grey;
+}
+
+.footerSubText {
+   font-size: 0.85rem;
+   color: grey;
+}

@@ -38,13 +38,13 @@ export class QuestionControlService {
   //   this.questionData$.subscribe(data => {
   //     console.log("Data Print - ");
   //     console.log(data);
-  //     this.question.key = data["cgw_aws_q_id"];
-  //     this.question.label = data["cgw_aws_q_text"];
+  //     this.question.key = data["cgw_q_id"];
+  //     this.question.label = data["cgw_q_text"];
   //     this.question.value = "Answer";
   //     this.question.required = true;
-  //     this.question.type = data["cgw_aws_q_type"];
-  //     this.question.hint = data["cgw_aws_q_hint"];
-  //     this.question.order = data["cgw_aws_q_id"];
+  //     this.question.type = data["cgw_q_type"];
+  //     this.question.hint = data["cgw_q_hint"];
+  //     this.question.order = data["cgw_q_id"];
   //     this.question.controlType = 'textbox';
   //     // this.questionService.currentQuestionData = question;          
   //   })

@@ -303,14 +303,6 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
         // console.log(this.questionCounter.config);
         // // console.log(this.questionClockConfig);
         // // console.log(this.questionCounter);
-
-        if (this.easyQuestionsRemainingCount == 0) {
-          location.href = "/category";
-        } else if (this.mediumQuestionsRemainingCount == 0) {
-          location.href = "/category";
-        } else if (this.hardQuestionsRemainingCount == 0) {
-          location.href = "/category";
-        }
         return data;
       }
     });

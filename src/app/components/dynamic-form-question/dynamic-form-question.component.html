@@ -15,20 +15,20 @@
         <tr class="greyDarkText">Difficulty Level</tr>
       </table>
     </div>
-    <div class="col bgGrey marginLeft paddingBottom">
+    <!-- <div class="col bgGrey marginLeft paddingBottom">
       <table class="textAlignCenter fullWidth">
         <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''">
           <countdown #questionCountdown [config]="questionClockConfig" (event)="updateLocalStorageQuestionTimer($event)"></countdown>
-        </tr>
+        </tr> -->
         <!-- <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='medium'">
           <countdown #cd [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
         </tr>
         <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''" *ngIf="q_diff==='hard'">
           <countdown #cd [config]="questionClockConfig" (event)="timerEvent($event)"></countdown>
         </tr> -->
-        <tr class="greyDarkText">Remaining Time</tr>
+        <!-- <tr class="greyDarkText">Remaining Time</tr>
       </table>
-    </div>
+    </div> -->
     <div class="col bgGrey marginLeft paddingBottom">
       <table class="textAlignCenter fullWidth">
         <tr class="bigText" [ngClass]="(q_diff=='easy')?'green':(q_diff=='medium')?'amber':(q_diff=='hard')?'red':''"

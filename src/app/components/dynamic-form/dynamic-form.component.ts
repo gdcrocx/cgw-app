@@ -83,7 +83,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   logOut() {
-    this.app.gameCounter.stop();
+    // this.app.gameCounter.stop();
     this.updateCurrentTimeSnapshot();
     location.href = "/login";
   }

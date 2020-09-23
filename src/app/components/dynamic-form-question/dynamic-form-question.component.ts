@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/cor
 import { FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
-import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+// import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
 
 import { QuestionBase } from '../question/question-base';
 import { environment } from '../../../environments/environment';
@@ -20,7 +20,7 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
   @Input() form: FormGroup;
   // get isValid() { return this.form.controls[this.question.key].valid; }
 
-  @ViewChild('questionCountdown', { static: true }) private questionCounter: CountdownComponent;
+  // @ViewChild('questionCountdown', { static: true }) private questionCounter: CountdownComponent;
   
   showHint: boolean = true;
   showHintText: boolean = false;
@@ -61,12 +61,12 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
   questionClockTimeInMinutes = 0;
   questionClockTimeInMicroseconds = 0
 
-  questionClockConfig: CountdownConfig = {
-    leftTime: this.questionClockTimeInMicroseconds,
-    format: "mm:ss",
-    demand: true,
-    notify: 0
-  };
+  // questionClockConfig: CountdownConfig = {
+  //   leftTime: this.questionClockTimeInMicroseconds,
+  //   format: "mm:ss",
+  //   demand: true,
+  //   notify: 0
+  // };
 
   constructor(
     private http: HttpClient,
@@ -87,7 +87,7 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.questionCounter.begin();
+    // this.questionCounter.begin();
   }
 
   toggleHintOn(questionId) {
@@ -192,12 +192,13 @@ export class DynamicFormQuestionComponent implements OnInit, AfterViewInit {
       "cgw_q_id": this.q_key,
       "teamUuid": this.teamUuid,
       "user_answer": this.userAnswer,
-      "cgw_q_score": this.q_currentScore
+      "cgw_q_score": this.q_currentScore,
+      "csp_resource": this.q_resource_tag
     }
 
-    if (this.q_resource_tag != "") {
+    if (this.q_resource_tag != "") {      
       this.http.post<any>(environment.serviceUrl + "/question/checkCspResourceAnswer", params).subscribe(data => {
-        // console.log(data[0]);  
+        console.log(data[0]);  
         if (data.length == 0) {
           // this.easyQuestionsRemainingCount = 0;
           // this.mediumQuestionsRemainingCount = 0;

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serviceUrl: "https://trendcyberdefence.ca:8080",
+  serviceUrl: "https://trendcyberdefence.ca/api",
   showConformityLink: false,
   totalSessionTimeInMinutes: 60
 };
